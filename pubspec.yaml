@@ -32,6 +32,7 @@ flutter:
   assets:
     - assets/images/fresh_fruits.png
     - assets/images/on_boarding_fruits.png
+    - assets/images/on_boarding_delivery.png
 
   # fonts:
   #   - family: Schyler

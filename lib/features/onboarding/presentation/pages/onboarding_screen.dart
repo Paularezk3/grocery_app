@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_app/common/components/primary_button.dart';
 import 'package:grocery_app/common/components/secondary_button.dart';
 import 'package:grocery_app/common/components/secondary_outlined_button.dart';
-import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../widgets/onboarding_content.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -32,148 +33,126 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final isSmallScreen = size.width < 400;
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: _currentPage == 0
-            ? null
-            : IconButton(
-                onPressed: () {
-                  _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOutCubic,
-                  );
-                },
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.orange,
-                  size: 28,
-                ),
-              ),
-      ),
+      appBar: _buildAppBar(),
       backgroundColor: AppColors.white,
       body: Column(
         children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: _onboardingTitleTexts.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      20.verticalSpace,
-                      Expanded(
-                        flex: 3,
-                        child: Image.asset(
-                          Strings.onBoardingFruitsPhoto,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Text(
-                        _onboardingTitleTexts[index],
-                        style:
-                            Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                  fontSize: isSmallScreen ? 20 : 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                        textAlign: TextAlign.center,
-                      ),
-                      if (_currentPage == 0) ...[
-                        20.verticalSpace,
-                        Text(
-                          "Grocery application",
-                          style: Theme.of(context).textTheme.headlineSmall,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                      20.verticalSpace,
-                      Text(
-                        _onboardingBodyTexts[index],
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.notReallyBlackText,
-                              fontWeight: FontWeight.w300,
-                              fontSize: isSmallScreen ? 14 : 16,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          SmoothPageIndicator(
-            controller: _pageController,
-            count: _onboardingTitleTexts.length,
-            effect: SwapEffect(
-              activeDotColor: AppColors.gPercent,
-              dotHeight: 6,
-              dotWidth: 23,
-              dotColor: AppColors.lightGrey,
-            ),
-            onDotClicked: (index) => _pageController.animateToPage(index,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeInOutCubic),
-          ),
+          _buildPageView(),
+          _buildPageIndicator(),
           25.verticalSpace,
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: _currentPage == 2 ? (60 + 16) : 0, // Animates height
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: SecondaryButton(
-              text: 'Create An Account',
-              onPressed: () {
-                // Handle secondary button action
-                Navigator.pushReplacementNamed(context, RouteNames.login);
-              },
-            ),
-          ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (child, animation) => FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
-            child: Padding(
-              key: ValueKey(
-                  _currentPage == 2), // Ensure a unique key for each child
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: _currentPage == 2
-                  ? SecondaryOutlinedButton(
-                      text: 'Login',
-                      onPressed: () {
-                        // Handle secondary button action
-                        Navigator.pushReplacementNamed(
-                            context, RouteNames.login);
-                      },
-                    )
-                  : PrimaryButton(
-                      text: 'Next',
-                      onPressed: () {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      },
-                    ),
-            ),
-          ),
+          _buildActionButton(context),
           25.verticalSpace,
         ],
       ),
+    );
+  }
+
+  Column _buildActionButton(BuildContext context) {
+    return Column(
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: _currentPage == 2 ? (60) : 0, // Animates height
+          child: SecondaryButton(
+            text: 'Create An Account',
+            onPressed: () {
+              // Handle secondary button action
+              Navigator.pushReplacementNamed(context, RouteNames.login);
+            },
+          ),
+        ),
+        25.verticalSpace,
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+          child: Padding(
+            key: ValueKey(
+                _currentPage == 2), // Ensure a unique key for each child
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: _currentPage == 2
+                ? SecondaryOutlinedButton(
+                    text: 'Login',
+                    onPressed: () {
+                      // Handle secondary button action
+                      Navigator.pushReplacementNamed(context, RouteNames.login);
+                    },
+                  )
+                : PrimaryButton(
+                    text: 'Next',
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  SmoothPageIndicator _buildPageIndicator() {
+    return SmoothPageIndicator(
+      controller: _pageController,
+      count: _onboardingTitleTexts.length,
+      effect: SwapEffect(
+        activeDotColor: AppColors.gPercent,
+        dotHeight: 6,
+        dotWidth: 23,
+        dotColor: AppColors.lightGrey,
+      ),
+      onDotClicked: (index) => _pageController.animateToPage(index,
+          duration: Duration(milliseconds: 300), curve: Curves.easeInOutCubic),
+    );
+  }
+
+  Expanded _buildPageView() {
+    return Expanded(
+      child: PageView.builder(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentPage = index;
+          });
+        },
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _onboardingTitleTexts.length,
+        itemBuilder: (context, index) {
+          return OnboardingContent(
+            title: _onboardingTitleTexts[index],
+            body: _onboardingBodyTexts[index],
+            isFirstPage: index == 0,
+            isLastPage: index == _onboardingTitleTexts.length - 1,
+          );
+        },
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: _currentPage == 0
+          ? null
+          : IconButton(
+              onPressed: () {
+                _pageController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOutCubic,
+                );
+              },
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: AppColors.orange,
+                size: 28,
+              ),
+            ),
     );
   }
 }
