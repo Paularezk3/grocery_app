@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grocery_app/common/components/default_back_icon.dart';
 import 'package:grocery_app/common/components/primary_button.dart';
 import 'package:grocery_app/common/components/secondary_button.dart';
 import 'package:grocery_app/common/components/secondary_outlined_button.dart';
@@ -58,7 +59,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             text: 'Create An Account',
             onPressed: () {
               // Handle secondary button action
-              Navigator.pushReplacementNamed(context, RouteNames.login);
+              Navigator.pushNamed(context, RouteNames.signUp);
             },
           ),
         ),
@@ -78,7 +79,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     text: 'Login',
                     onPressed: () {
                       // Handle secondary button action
-                      Navigator.pushReplacementNamed(context, RouteNames.login);
+                      Navigator.pushNamed(context, RouteNames.login);
                     },
                   )
                 : PrimaryButton(
@@ -140,19 +141,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
       elevation: 0,
       leading: _currentPage == 0
           ? null
-          : IconButton(
+          : DefaultBackIcon(
+              iconColor: AppColors.orange,
+              iconSize: 28,
               onPressed: () {
                 _pageController.previousPage(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOutCubic,
                 );
-              },
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: AppColors.orange,
-                size: 28,
-              ),
-            ),
+              }),
     );
   }
 }

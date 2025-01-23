@@ -1,38 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
   const PrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: isLoading ? null : onPressed,
       child: Container(
-        width: 318, // Fixed width
-        height: 60, // Fixed height
+        width: 318.w,
+        height: 60.h,
         decoration: BoxDecoration(
-          color: AppColors.lightYellow, // AppColors.yellow
-          borderRadius: BorderRadius.circular(32), // Rounded corners
+          color: isLoading ? AppColors.lightGrey : AppColors.lightYellow,
+          borderRadius: BorderRadius.circular(32),
         ),
-        alignment: Alignment.center, // Center aligned
-        child: Text(
-          text.toUpperCase(),
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w700, // Weight 700
-            fontSize: 24, // Font size 24px
-            color: Colors.black, // AppColors.blackText
-          ),
-        ),
+        alignment: Alignment.center,
+        child: isLoading
+            ? _buildLoadingIndicator(context)
+            : Text(
+                text.toUpperCase(),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: isLoading ? AppColors.lightGrey : Colors.black,
+                    ),
+              ),
       ),
     );
+  }
+
+  Widget _buildLoadingIndicator(BuildContext context) {
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    return isIOS
+        ? const CupertinoActivityIndicator() // Cupertino spinner for iOS
+        : const CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ); // Material spinner for Android
   }
 }

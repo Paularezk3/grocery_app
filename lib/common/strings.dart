@@ -8,4 +8,5 @@ class Strings {
   static const onBoardingFruitsPhoto = "$_imagesPath/on_boarding_fruits.png";
   static const onBoardingDeliveryPhoto =
       "$_imagesPath/on_boarding_delivery.png";
+  static const signUpPhoto = "$_imagesPath/sign_up.png";
 }

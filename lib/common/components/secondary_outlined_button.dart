@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:grocery_app/core/themes/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SecondaryOutlinedButton extends StatelessWidget {
   final String text;
@@ -23,8 +22,8 @@ class SecondaryOutlinedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
-      height: height,
+      width: width.w,
+      height: height.h,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
@@ -35,12 +34,8 @@ class SecondaryOutlinedButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          text,
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w700, // Weight 700
-            fontSize: 24, // Font size 24px
-            color: AppColors.blackText, // AppColors.blackText
-          ),
+          text.toUpperCase(),
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(),
           textAlign: TextAlign.center,
         ),
       ),

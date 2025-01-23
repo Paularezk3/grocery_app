@@ -28,9 +28,11 @@ class OnboardingContent extends StatelessWidget {
           Expanded(
             flex: 3,
             child: AnimatedCrossFade(
-              firstChild: Image.asset(
-                Strings.onBoardingFruitsPhoto,
-                fit: BoxFit.contain,
+              firstChild: Center(
+                child: Image.asset(
+                  Strings.onBoardingFruitsPhoto,
+                  fit: BoxFit.contain,
+                ),
               ),
               secondChild: Center(
                 child: Image.asset(
