@@ -1,5 +1,15 @@
 abstract class SignUpAuthEvent {}
 
-class SignUpButtonClickedEvent extends SignUpAuthEvent {}
+class SignUpButtonClickedEvent extends SignUpAuthEvent {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String password;
 
-class GoToLoginPage extends SignUpAuthEvent {}
+  SignUpButtonClickedEvent({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.password,
+  });
+}

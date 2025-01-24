@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/themes/app_colors.dart';
 
 class SecondaryButton extends StatelessWidget {
   final String text;
@@ -22,8 +23,8 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
-      height: height,
+      width: width.w,
+      height: height.h,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -37,11 +38,10 @@ class SecondaryButton extends StatelessWidget {
         ),
         child: Text(
           text.toUpperCase(),
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w700, // Weight 700
-            fontSize: 24, // Font size 24px
-            color: textColor, // AppColors.blackText
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: AppColors.whiteText),
           textAlign: TextAlign.center,
         ),
       ),
