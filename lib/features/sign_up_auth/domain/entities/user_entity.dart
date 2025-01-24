@@ -1,12 +1,12 @@
-abstract class SignUpAuthEvent {}
+// lib\features\sign_up_auth\domain\entities\user_entity.dart
 
-class SignUpButtonClickedEvent extends SignUpAuthEvent {
+class SignUpParams {
   final String firstName;
   final String lastName;
   final String email;
   final String password;
 
-  SignUpButtonClickedEvent({
+  SignUpParams({
     required this.firstName,
     required this.lastName,
     required this.email,

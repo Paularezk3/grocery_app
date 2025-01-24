@@ -1,12 +1,15 @@
+// lib\features\sign_up_auth\presentation\pages\sign_up_page.dart
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grocery_app/common/components/default_text_field.dart';
-import 'package:grocery_app/common/components/primary_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
-import 'package:grocery_app/features/sign_up_auth/presentation/widgets/terms_and_conditions.dart';
-
 import '../../../../common/components/default_back_icon.dart';
+import '../../../../common/components/primary_button.dart';
+import '../bloc/sign_up_auth_bloc.dart';
+import '../bloc/sign_up_auth_state.dart';
+import '../widgets/sign_up_form.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -16,144 +19,152 @@ class SignUpPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background image with overlay
-          Positioned.fill(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.5,
+      body: BlocConsumer<SignUpAuthBloc, SignUpAuthState>(
+          listener: (context, state) {
+        if (state is SignUpSuccessState) {
+          // todo: make it when pop up make the background blured
+          showDialog(
+            context: context,
+            barrierDismissible:
+                false, // Prevent dismissing the dialog by tapping outside
+            builder: (context) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: SizedBox(
+                  width: 333,
+                  height: size.height < 400 ? size.height : 400,
                   child: Stack(
-                    fit: StackFit.expand,
+                    alignment: Alignment.topCenter,
                     children: [
-                      Image.asset(
-                        Strings
-                            .signUpPhoto, // Replace with your image asset path
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black
-                                  .withValues(alpha: 0.5), // Transparent black
-                              Colors.transparent, // Fully transparent
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
+                      // Confetti Animation Widget
+                      Positioned.fill(
+                        child: ConfettiWidget(
+                          confettiController: ConfettiController(
+                            duration: const Duration(seconds: 3),
+                          )..play(),
+                          blastDirectionality: BlastDirectionality.explosive,
+                          shouldLoop: false,
+                          colors: const [
+                            AppColors.lightYellow,
+                            AppColors.orange,
+                            AppColors.gPercent,
+                            Colors.pink,
+                            Colors.blue,
+                          ],
+                          numberOfParticles: 100, // Increase for more confetti
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Back button
-          Positioned(
-            top: 40, // Adjust to match your app's design
-            left: 16,
-            child: DefaultBackIcon(
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-
-          // Sign-up form
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: size.height * 0.6,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32),
-                ),
-              ),
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            // Title
                             Text(
-                              "Create your account",
+                              "Congratulations!",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headlineMedium!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.sp),
-                            ),
-                            InkWell(
-                              onTap: () => Navigator.pop(context),
-                              child: Container(
-                                  width: 26.w,
-                                  height: 26.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.black,
+                                  .headlineMedium
+                                  ?.copyWith(
+                                    color: AppColors.orange,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 18.sp,
-                                    color: AppColors.white,
-                                  )),
-                            )
-                          ]),
-                      SizedBox(height: 16.h),
-                      Flexible(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: const DefaultTextField.normal(
-                                hintText: 'First Name',
-                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: const DefaultTextField.normal(
-                                hintText: 'Last Name',
+                            const SizedBox(height: 16),
+
+                            // User's First and Last Name
+                            Text(
+                              '${state.message.firstName} ${state.message.lastName}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 40),
+
+                            //TODO: Sign in button animation to sign in page
+                            // Primary Button
+                            Flexible(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: PrimaryButton(
+                                  text: 'Sign In',
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      16.verticalSpace,
-                      Flexible(
-                        child: const DefaultTextField.normal(
-                          hintText: 'Email',
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                      ),
-                      16.verticalSpace,
-                      Flexible(
-                        child: const DefaultTextField.password(
-                          hintText: 'Password',
-                        ),
-                      ),
-                      16.verticalSpace,
-                      Flexible(child: TermsAndConditions()),
-                      16.verticalSpace,
-                      Flexible(
-                          child: PrimaryButton(
-                        text: "Create an account",
-                        onPressed: () {},
-                        isLoading: false,
-                      ))
                     ],
                   ),
                 ),
+              );
+            },
+          );
+        } else if (state is SignUpErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error)),
+          );
+        }
+      }, builder: (context, state) {
+        return Stack(
+          children: [
+            // Background image with overlay
+            _backgroundImage(size),
+
+            // Back button
+            Positioned(
+              top: 40, // Adjust to match your app's design
+              left: 16,
+              child: DefaultBackIcon(
+                onPressed: () => Navigator.pop(context),
               ),
+            ),
+
+            // Sign-up form
+            SignUpForm(),
+          ],
+        );
+      }),
+    );
+  }
+
+  Positioned _backgroundImage(Size size) {
+    return Positioned.fill(
+      child: Column(
+        children: [
+          SizedBox(
+            height: size.height * 0.5,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  Strings.signUpPhoto, // Replace with your image asset path
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black
+                            .withValues(alpha: 0.5), // Transparent black
+                        Colors.transparent, // Fully transparent
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
