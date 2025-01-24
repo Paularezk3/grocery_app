@@ -25,6 +25,7 @@ class MockSignUpRepository implements SignUpRepository {
         'firstName': params.firstName,
         'lastName': params.lastName,
         'email': params.email,
+        'createdAt': FieldValue.serverTimestamp(),
       });
 
       return Right('Sign-up successful');

@@ -3,30 +3,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grocery_app/features/sign_up_auth/presentation/bloc/sign_up_auth_state.dart';
-
+import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_bloc.dart';
+import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_event.dart';
+import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_state.dart';
 import '../../../../common/components/default_text_field.dart';
 import '../../../../common/components/primary_button.dart';
 import '../../../../core/themes/app_colors.dart';
-import '../bloc/sign_up_auth_bloc.dart';
-import '../bloc/sign_up_auth_event.dart';
-import 'terms_and_conditions.dart';
 
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({
+class SignInForm extends StatefulWidget {
+  const SignInForm({
     super.key,
   });
 
   @override
-  State<SignUpForm> createState() => _SignUpFormState();
+  State<SignInForm> createState() => _SignInFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignInFormState extends State<SignInForm> {
   final formKey = GlobalKey<FormState>();
-
-  final firstNameController = TextEditingController();
-
-  final lastNameController = TextEditingController();
 
   final emailController = TextEditingController();
 
@@ -35,8 +29,6 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   void dispose() {
     // Dispose controllers to prevent memory leaks
-    firstNameController.dispose();
-    lastNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -44,12 +36,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        context.read<SignUpAuthBloc>().state is SignUpPageLoadingState;
+    final isLoading = context.read<LoginAuthBloc>().state is LoginPageLoading;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.5,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: AppColors.white,
@@ -71,7 +62,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Create your account",
+                          "Sign In",
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium!
@@ -95,53 +86,6 @@ class _SignUpFormState extends State<SignUpForm> {
                         )
                       ]),
                   SizedBox(height: 16.h),
-                  Flexible(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: DefaultTextField.normal(
-                            controller: firstNameController,
-                            isLoading: isLoading,
-                            hintText: 'First Name',
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'First name is required';
-                              } else if (value.length < 2) {
-                                return 'First name must be at least 2 characters';
-                              } else if (!RegExp(r"^[a-zA-Z]+$")
-                                  .hasMatch(value)) {
-                                return 'First name can only contain letters';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 16.w),
-                        Expanded(
-                          child: DefaultTextField.normal(
-                            controller: lastNameController,
-                            isLoading: isLoading,
-                            hintText: 'Last Name',
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Last name is required';
-                              } else if (value.length < 2) {
-                                return 'Last name must be at least 2 characters';
-                              } else if (!RegExp(r"^[a-zA-Z]+$")
-                                  .hasMatch(value)) {
-                                return 'Last name can only contain letters';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  16.verticalSpace,
                   Flexible(
                     child: DefaultTextField.normal(
                       hintText: 'Email',
@@ -167,36 +111,32 @@ class _SignUpFormState extends State<SignUpForm> {
                       controller: passwordController,
                       isLoading: isLoading,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return 'Password is required';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters long';
-                        } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                          return 'Password must contain at least one uppercase letter';
-                        } else if (!RegExp(r'[a-z]').hasMatch(value)) {
-                          return 'Password must contain at least one lowercase letter';
-                        } else if (!RegExp(r'[0-9]').hasMatch(value)) {
-                          return 'Password must contain at least one number';
-                        } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
-                            .hasMatch(value)) {
-                          return 'Password must contain at least one special character';
                         }
                         return null;
                       },
                     ),
                   ),
-                  16.verticalSpace,
-                  Flexible(child: TermsAndConditions()),
-                  16.verticalSpace,
+                  // 8.verticalSpace,
+                  Flexible(
+                      child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot Password?",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: AppColors.orange),
+                          ))),
+                  24.verticalSpace,
                   Flexible(
                       child: PrimaryButton(
-                    text: "Create an account",
+                    text: "Sign In",
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        context.read<SignUpAuthBloc>().add(
-                              SignUpButtonClickedEvent(
-                                firstName: firstNameController.text.trim(),
-                                lastName: lastNameController.text.trim(),
+                        context.read<LoginAuthBloc>().add(
+                              LoginClicked(
                                 email: emailController.text.trim(),
                                 password: passwordController.text.trim(),
                               ),

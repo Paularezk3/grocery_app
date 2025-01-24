@@ -1,5 +1,7 @@
 // lib\features\sign_up_auth\presentation\pages\sign_up_page.dart
 
+import 'dart:ui';
+
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 import '../../../../common/components/default_back_icon.dart';
 import '../../../../common/components/primary_button.dart';
+import '../../../../core/utils/snackbar_utils.dart';
 import '../bloc/sign_up_auth_bloc.dart';
 import '../bloc/sign_up_auth_state.dart';
 import '../widgets/sign_up_form.dart';
@@ -28,92 +31,100 @@ class SignUpPage extends StatelessWidget {
             barrierDismissible:
                 false, // Prevent dismissing the dialog by tapping outside
             builder: (context) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-                child: SizedBox(
-                  width: 333,
-                  height: size.height < 400 ? size.height : 400,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      // Confetti Animation Widget
-                      Positioned.fill(
-                        child: ConfettiWidget(
-                          confettiController: ConfettiController(
-                            duration: const Duration(seconds: 3),
-                          )..play(),
-                          blastDirectionality: BlastDirectionality.explosive,
-                          shouldLoop: false,
-                          colors: const [
-                            AppColors.lightYellow,
-                            AppColors.orange,
-                            AppColors.gPercent,
-                            Colors.pink,
-                            Colors.blue,
-                          ],
-                          numberOfParticles: 100, // Increase for more confetti
-                        ),
+              return Stack(
+                children: [
+                  BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5)),
+                  Center(
+                    child: Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: SizedBox(
+                        width: 333,
+                        height: size.height < 400 ? size.height : 400,
+                        child: Stack(
+                          alignment: Alignment.topCenter,
                           children: [
-                            // Title
-                            Text(
-                              "Congratulations!",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                    color: AppColors.orange,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                              textAlign: TextAlign.center,
+                            // Confetti Animation Widget
+                            Positioned.fill(
+                              child: ConfettiWidget(
+                                confettiController: ConfettiController(
+                                  duration: const Duration(seconds: 3),
+                                )..play(),
+                                blastDirectionality:
+                                    BlastDirectionality.explosive,
+                                shouldLoop: false,
+                                colors: const [
+                                  AppColors.lightYellow,
+                                  AppColors.orange,
+                                  AppColors.gPercent,
+                                  Colors.pink,
+                                  Colors.blue,
+                                ],
+                                numberOfParticles:
+                                    100, // Increase for more confetti
+                              ),
                             ),
-                            const SizedBox(height: 16),
-
-                            // User's First and Last Name
-                            Text(
-                              '${state.message.firstName} ${state.message.lastName}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w600,
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Title
+                                  Text(
+                                    "Congratulations!",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                          color: AppColors.orange,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                    textAlign: TextAlign.center,
                                   ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 40),
+                                  const SizedBox(height: 16),
 
-                            //TODO: Sign in button animation to sign in page
-                            // Primary Button
-                            Flexible(
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: PrimaryButton(
-                                  text: 'Sign In',
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                                  // User's First and Last Name
+                                  Text(
+                                    '${state.message.firstName} ${state.message.lastName}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 40),
+
+                                  //TODO: Sign in button animation to sign in page
+                                  // Primary Button
+                                  Flexible(
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: PrimaryButton(
+                                        text: 'Sign In',
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               );
             },
           );
         } else if (state is SignUpErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error)),
-          );
+          context.showSnackBar(context, state.error);
         }
       }, builder: (context, state) {
         return Stack(

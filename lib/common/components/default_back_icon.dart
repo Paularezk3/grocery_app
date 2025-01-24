@@ -18,6 +18,7 @@ class DefaultBackIcon extends StatelessWidget {
       icon: Icon(
         Icons.arrow_back_rounded,
         color: iconColor,
+        size: iconSize,
       ),
       onPressed: () {
         onPressed();

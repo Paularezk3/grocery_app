@@ -1,5 +1,5 @@
 name: grocery_app
-description: "A new Flutter project."
+description: "A Grocery App for fast delivery of the best fruits."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -40,6 +40,7 @@ flutter:
     - assets/images/on_boarding_fruits.png
     - assets/images/on_boarding_delivery.png
     - assets/images/sign_up.png
+    - assets/images/sign_in.png
 
   # fonts:
   #   - family: Schyler
