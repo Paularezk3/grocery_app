@@ -189,21 +189,25 @@ class _SignUpFormState extends State<SignUpForm> {
                   Flexible(child: TermsAndConditions()),
                   16.verticalSpace,
                   Flexible(
-                      child: PrimaryButton(
-                    text: "Create an account",
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        context.read<SignUpAuthBloc>().add(
-                              SignUpButtonClickedEvent(
-                                firstName: firstNameController.text.trim(),
-                                lastName: lastNameController.text.trim(),
-                                email: emailController.text.trim(),
-                                password: passwordController.text.trim(),
-                              ),
-                            );
-                      }
-                    },
-                    isLoading: isLoading,
+                      child: Hero(
+                    tag: "createAccount",
+                    child: PrimaryButton(
+                      text: "Create an account",
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          context.read<SignUpAuthBloc>().add(
+                                SignUpButtonClickedEvent(
+                                  firstName: firstNameController.text.trim(),
+                                  lastName: lastNameController.text.trim(),
+                                  email:
+                                      emailController.text.trim().toLowerCase(),
+                                  password: passwordController.text.trim(),
+                                ),
+                              );
+                        }
+                      },
+                      isLoading: isLoading,
+                    ),
                   ))
                 ],
               ),

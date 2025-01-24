@@ -36,7 +36,8 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = context.read<LoginAuthBloc>().state is LoginPageLoading;
+    final isLoading =
+        context.read<LoginAuthBloc>().state is LoginPageLoadingState;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -56,7 +57,7 @@ class _SignInFormState extends State<SignInForm> {
               key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +86,7 @@ class _SignInFormState extends State<SignInForm> {
                               )),
                         )
                       ]),
-                  SizedBox(height: 16.h),
+                  24.verticalSpace,
                   Flexible(
                     child: DefaultTextField.normal(
                       hintText: 'Email',
@@ -130,21 +131,23 @@ class _SignInFormState extends State<SignInForm> {
                                 .copyWith(color: AppColors.orange),
                           ))),
                   24.verticalSpace,
-                  Flexible(
-                      child: PrimaryButton(
-                    text: "Sign In",
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        context.read<LoginAuthBloc>().add(
-                              LoginClicked(
-                                email: emailController.text.trim(),
-                                password: passwordController.text.trim(),
-                              ),
-                            );
-                      }
-                    },
-                    isLoading: isLoading,
-                  ))
+                  Hero(
+                    tag: 'signInButton',
+                    child: PrimaryButton(
+                      text: "Sign In",
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          context.read<LoginAuthBloc>().add(
+                                LoginClicked(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                ),
+                              );
+                        }
+                      },
+                      isLoading: isLoading,
+                    ),
+                  ),
                 ],
               ),
             ),

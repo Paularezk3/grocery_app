@@ -7,9 +7,13 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final double width;
+  final double height;
 
   const PrimaryButton({
     super.key,
+    this.width = 318,
+    this.height = 60,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
@@ -20,8 +24,8 @@ class PrimaryButton extends StatelessWidget {
     return GestureDetector(
       onTap: isLoading ? null : onPressed,
       child: Container(
-        width: 318.w,
-        height: 60.h,
+        width: width.w,
+        height: height.h,
         decoration: BoxDecoration(
           color: isLoading ? AppColors.lightGrey : AppColors.lightYellow,
           borderRadius: BorderRadius.circular(32),

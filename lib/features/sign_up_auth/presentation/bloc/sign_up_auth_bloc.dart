@@ -1,3 +1,5 @@
+// lib\features\sign_up_auth\presentation\bloc\sign_up_auth_bloc.dart
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/features/sign_up_auth/domain/entities/successful_sign_up_entity.dart';
 import '../../../../core/errors/failures.dart';

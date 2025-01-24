@@ -55,12 +55,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           height: _currentPage == 2 ? (60) : 0, // Animates height
-          child: SecondaryButton(
-            text: 'Create An Account',
-            onPressed: () {
-              // Handle secondary button action
-              Navigator.pushNamed(context, RouteNames.signUp);
-            },
+          child: Hero(
+            tag: "createAccount",
+            child: SecondaryButton(
+              text: 'Create An Account',
+              onPressed: () {
+                // Handle secondary button action
+                Navigator.pushNamed(context, RouteNames.signUp);
+              },
+            ),
           ),
         ),
         25.verticalSpace,
@@ -75,12 +78,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 _currentPage == 2), // Ensure a unique key for each child
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: _currentPage == 2
-                ? SecondaryOutlinedButton(
-                    text: 'Login',
-                    onPressed: () {
-                      // Handle secondary button action
-                      Navigator.pushNamed(context, RouteNames.login);
-                    },
+                ? Hero(
+                    tag: "signInButton",
+                    child: SecondaryOutlinedButton(
+                      text: 'Login',
+                      onPressed: () {
+                        // Handle secondary button action
+                        Navigator.pushNamed(context, RouteNames.login);
+                      },
+                    ),
                   )
                 : PrimaryButton(
                     text: 'Next',
