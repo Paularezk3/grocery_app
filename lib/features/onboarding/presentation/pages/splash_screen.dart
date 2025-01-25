@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grocery_app/common/strings.dart';
-import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,7 +13,6 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late User? user;
 
   @override
   void initState() {
@@ -33,23 +30,12 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.bounceIn,
     ));
 
-    // Check authentication state and navigate accordingly
-    Future.delayed(const Duration(seconds: 3), _navigateToNextScreen);
-    user = FirebaseAuth.instance.currentUser;
-  }
-
-  Future<void> _navigateToNextScreen() async {
-    // user = FirebaseAuth.instance.currentUser;
-
-    if (context.mounted) {
-      if (user != null) {
-        // User is signed in
-        Navigator.pushReplacementNamed(context, RouteNames.homePage);
-      } else {
-        // User is not signed in
-        Navigator.pushReplacementNamed(context, RouteNames.onboarding);
+    // Navigate to onboarding after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, '/onboarding');
       }
-    }
+    });
   }
 
   @override

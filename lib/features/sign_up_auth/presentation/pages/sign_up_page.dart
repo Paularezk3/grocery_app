@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
-import '../../../../common/components/default_icon.dart';
+import '../../../../common/components/default_back_icon.dart';
 import '../../../../common/components/primary_button.dart';
 import '../../../../core/utils/snackbar_utils.dart';
 import '../bloc/sign_up_auth_bloc.dart';
@@ -132,7 +132,7 @@ class SignUpPage extends StatelessWidget {
             Positioned(
               top: 40, // Adjust to match your app's design
               left: 16,
-              child: DefaultIcon.back(
+              child: DefaultBackIcon(
                 onPressed: () => Navigator.pop(context),
               ),
             ),

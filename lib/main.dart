@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grocery_app/features/home/presentation/bloc/home_page_bloc.dart';
-import 'package:grocery_app/features/home/presentation/pages/main_home_page.dart';
 import 'package:grocery_app/features/login_auth/domain/usecases/login_user.dart';
 import 'package:grocery_app/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:grocery_app/features/sign_up_auth/data/repositories/mock_sign_up_repository.dart';
@@ -46,9 +44,6 @@ class GroceryApp extends StatelessWidget {
           create: (context) =>
               SignUpAuthBloc(signUpUser: SignUpUser(MockSignUpRepository())),
         ),
-        BlocProvider<HomePageBloc>(
-          create: (context) => HomePageBloc(),
-        )
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -63,11 +58,6 @@ class GroceryApp extends StatelessWidget {
             RouteNames.onboarding: (context) => const OnboardingPage(),
             RouteNames.login: (context) => LoginPage(),
             RouteNames.signUp: (context) => SignUpPage(),
-            RouteNames.homePage: (context) => MainHomePage(),
-            RouteNames.cartPage: (context) => MainHomePage(pageIndex: 2),
-            RouteNames.categoriesPage: (context) => MainHomePage(pageIndex: 1),
-            RouteNames.favouritesPage: (context) => MainHomePage(pageIndex: 3),
-            RouteNames.profilePage: (context) => MainHomePage(pageIndex: 4),
           },
         ),
       ),

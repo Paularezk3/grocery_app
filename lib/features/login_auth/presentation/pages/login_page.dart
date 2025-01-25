@@ -7,7 +7,7 @@ import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/utils/snackbar_utils.dart';
 import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_bloc.dart';
 import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_state.dart';
-import '../../../../common/components/default_icon.dart';
+import '../../../../common/components/default_back_icon.dart';
 import '../widgets/sign_in_form.dart';
 
 class LoginPage extends StatelessWidget {
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
               Positioned(
                 top: 40,
                 left: 16,
-                child: DefaultIcon.back(
+                child: DefaultBackIcon(
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
