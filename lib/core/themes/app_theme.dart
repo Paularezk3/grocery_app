@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/core/themes/app_colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -23,32 +24,37 @@ class AppTheme {
         headlineLarge: GoogleFonts.inter(
           fontSize: 24.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: AppColors.blackText,
         ),
         headlineMedium: GoogleFonts.poppins(
           fontSize: 28.sp,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: AppColors.blackText,
         ),
         headlineSmall: GoogleFonts.inter(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black87,
+          color: AppColors.blackText,
         ),
         bodyLarge: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
-          color: Colors.black,
+          color: AppColors.blackText,
         ),
         bodyMedium: GoogleFonts.inter(
           fontSize: 14.sp,
           fontWeight: FontWeight.normal,
-          color: Colors.black54,
+          color: AppColors.blackText,
+        ),
+        bodySmall: GoogleFonts.poppins(
+          fontSize: 9.sp,
+          fontWeight: FontWeight.w600,
+          color: AppColors.blackText,
         ),
         labelLarge: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: AppColors.blackText,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -82,7 +88,7 @@ class AppTheme {
         ),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
-          color: Colors.black87,
+          color: AppColors.blackText,
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(

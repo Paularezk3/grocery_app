@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grocery_app/common/components/default_back_icon.dart';
 import 'package:grocery_app/common/components/primary_button.dart';
 import 'package:grocery_app/common/components/secondary_button.dart';
 import 'package:grocery_app/common/components/secondary_outlined_button.dart';
@@ -8,6 +7,7 @@ import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../common/components/default_icon.dart';
 import '../widgets/onboarding_content.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -147,7 +147,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       elevation: 0,
       leading: _currentPage == 0
           ? null
-          : DefaultBackIcon(
+          : DefaultIcon.back(
               iconColor: AppColors.orange,
               iconSize: 28,
               onPressed: () {
