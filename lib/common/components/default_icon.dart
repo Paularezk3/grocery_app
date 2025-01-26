@@ -30,10 +30,46 @@ class DefaultIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: iconSize + 16, // Adjust width to fit icon and possible badge
-      height: iconSize,
-      child: GestureDetector(
+    if (hasNotification) {
+      return SizedBox(
+        width: iconSize + 16, // Adjust width to fit icon and possible badge
+        height: iconSize,
+        child: GestureDetector(
+          onTap: onPressed, // If null, icon is non-clickable
+          behavior: onPressed != null ? HitTestBehavior.opaque : null,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Main Icon
+              Align(
+                alignment: Alignment.center,
+                child: Icon(
+                  icon,
+                  size: iconSize,
+                  color: iconColor,
+                ),
+              ),
+              // Optional Badge
+              Positioned(
+                top: -4,
+                right: 6,
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(color: AppColors.whiteBackground, width: 2),
+                    color: AppColors.lightYellow,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return GestureDetector(
         onTap: onPressed, // If null, icon is non-clickable
         behavior: onPressed != null ? HitTestBehavior.opaque : null,
         child: Stack(
@@ -49,24 +85,9 @@ class DefaultIcon extends StatelessWidget {
               ),
             ),
             // Optional Badge
-            if (hasNotification) // Only for specific icons
-              Positioned(
-                top: -4,
-                right: 6,
-                child: Container(
-                  width: 14,
-                  height: 14,
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: AppColors.whiteBackground, width: 2),
-                    color: AppColors.lightYellow,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
           ],
         ),
-      ),
-    );
+      );
+    }
   }
 }

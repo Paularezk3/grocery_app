@@ -41,8 +41,7 @@ class DefaultBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: DefaultIcon(
             Icons.home_rounded,
-            iconColor:
-                currentIndex == 0 ? AppColors.apparentlyBlack : AppColors.grey,
+            iconColor: currentIndex == 0 ? AppColors.orange : AppColors.grey,
           ),
           label: 'Home',
         ),
@@ -50,8 +49,7 @@ class DefaultBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: DefaultIcon(
             Icons.compare_arrows_rounded,
-            iconColor:
-                currentIndex == 1 ? AppColors.apparentlyBlack : AppColors.grey,
+            iconColor: currentIndex == 1 ? AppColors.orange : AppColors.grey,
           ),
           label: 'Exchange',
         ),
@@ -59,8 +57,7 @@ class DefaultBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: DefaultIcon(
             Icons.shopping_cart_rounded,
-            iconColor:
-                currentIndex == 2 ? AppColors.apparentlyBlack : AppColors.grey,
+            iconColor: currentIndex == 2 ? AppColors.orange : AppColors.grey,
             hasNotification: true,
           ),
           label: 'Cart',
@@ -69,8 +66,7 @@ class DefaultBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: DefaultIcon(
             Icons.favorite_rounded,
-            iconColor:
-                currentIndex == 3 ? AppColors.apparentlyBlack : AppColors.grey,
+            iconColor: currentIndex == 3 ? AppColors.orange : AppColors.grey,
           ),
           label: 'Favorites',
         ),

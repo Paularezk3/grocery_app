@@ -12,6 +12,7 @@ import 'package:grocery_app/features/sign_up_auth/domain/usecases/sign_up_user.d
 import 'package:grocery_app/features/sign_up_auth/presentation/bloc/sign_up_auth_bloc.dart';
 import 'core/config/routes/route_names.dart';
 import 'core/themes/app_theme.dart';
+import 'features/fruits_category_page.dart/presentation/pages/fruits_category_page.dart';
 import 'features/login_auth/data/repositories/mock_firebase_login_repository.dart';
 import 'features/login_auth/presentation/bloc/login_auth_bloc.dart';
 import 'features/login_auth/presentation/pages/login_page.dart';
@@ -68,6 +69,7 @@ class GroceryApp extends StatelessWidget {
             RouteNames.categoriesPage: (context) => MainHomePage(pageIndex: 1),
             RouteNames.favouritesPage: (context) => MainHomePage(pageIndex: 3),
             RouteNames.profilePage: (context) => MainHomePage(pageIndex: 4),
+            RouteNames.fruitsCategoryPage: (context) => FruitsCategoryPage(),
           },
         ),
       ),
