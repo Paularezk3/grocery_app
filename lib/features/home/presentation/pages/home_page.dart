@@ -11,10 +11,11 @@ import 'package:grocery_app/core/themes/app_colors.dart';
 import 'package:grocery_app/features/home/presentation/bloc/home_page_bloc.dart';
 import 'package:grocery_app/features/home/presentation/bloc/home_page_event.dart';
 import 'package:grocery_app/features/home/presentation/bloc/home_page_state.dart';
+import 'package:grocery_app/features/home/presentation/models/home_page_model.dart';
 import '../../../../common/components/primary_button.dart';
 import '../../../../common/widget_body/unexpected_error_page.dart';
 import '../../../../core/config/routes/route_names.dart';
-import '../widgets/favourite_icon_animation.dart';
+import '../../../../common/common_with_different_pages/favourite_icon_animation.dart';
 
 class HomePage extends StatelessWidget {
   final Function(int) onTabChange;
@@ -385,103 +386,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            GridView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              physics:
-                  const NeverScrollableScrollPhysics(), // Non-scrollable grid
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Two columns
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 1 / 1.5, // 1 width : 1.5 height (200px items)
-              ),
-              itemCount: 4, // Four items only
-              itemBuilder: (context, index) {
-                final item = state.homePageModel.trendingDeals[index];
-                return Stack(
-                  children: [
-                    // Product Image with Background
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: const Offset(0, 2),
-                            blurRadius: 19,
-                            spreadRadius: 2,
-                            color: AppColors.black.withValues(alpha: 0.05),
-                          ),
-                        ],
-                        image: DecorationImage(
-                          image: AssetImage(item.imageAssetPath),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                    // Favorite Button
-                    Positioned(
-                      top: 8,
-                      left: 8,
-                      child: GestureDetector(
-                        onTap: () {
-                          // Handle favorite action here
-                        },
-                        child: FavouriteIconAnimation(
-                          item: item,
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-
-                    // Product Details (Title and Price)
-                    Positioned(
-                      bottom: 12,
-                      left: 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Product Title
-                          Text(
-                            item.title,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-
-                          // Product Price
-                          Text(
-                            '\$${item.price}', // Replace with dynamic price if available
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+            FruitsCategoryCardGrid(
+                trendingDeals: state.homePageModel.trendingDeals),
             24.verticalSpace,
             Align(
               alignment: Alignment.center,
@@ -500,6 +406,112 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class FruitsCategoryCardGrid extends StatelessWidget {
+  final List<TrendingDeals> trendingDeals;
+  const FruitsCategoryCardGrid({
+    required this.trendingDeals,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      physics: const NeverScrollableScrollPhysics(), // Non-scrollable grid
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Two columns
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 1 / 1.5, // 1 width : 1.5 height (200px items)
+      ),
+      itemCount: 4, // Four items only
+      itemBuilder: (context, index) {
+        final item = trendingDeals[index];
+        return Stack(
+          children: [
+            // Product Image with Background
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, 2),
+                    blurRadius: 19,
+                    spreadRadius: 2,
+                    color: AppColors.black.withValues(alpha: 0.05),
+                  ),
+                ],
+                image: DecorationImage(
+                  image: AssetImage(item.imageAssetPath),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+
+            // Favorite Button
+            Positioned(
+              top: 8,
+              left: 8,
+              child: GestureDetector(
+                onTap: () {
+                  // Handle favorite action here
+                },
+                child: FavouriteIconAnimation(
+                  item: item,
+                  onPressed: () {},
+                ),
+              ),
+            ),
+
+            // Product Details (Title and Price)
+            Positioned(
+              bottom: 12,
+              left: 12,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product Title
+                  Text(
+                    item.title,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+
+                  // Product Price
+                  Text(
+                    '\$${item.price}', // Replace with dynamic price if available
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
