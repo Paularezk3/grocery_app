@@ -392,7 +392,7 @@ class HomePage extends StatelessWidget {
               child: Hero(
                 tag: 'fruitsCategoryGrid',
                 child: FruitsCategoryCardGrid(
-                    onPressed: () {
+                    onPressed: (_) {
                       Navigator.pushNamed(
                           context, RouteNames.fruitsCategoryPage);
                     },

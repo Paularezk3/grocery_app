@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_app/common/components/default_icon.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
-
 import '../../../../common/common_with_different_pages/fruits_category_card_grid.dart';
 import '../../../home/presentation/bloc/home_page_bloc.dart';
 import '../../../home/presentation/bloc/home_page_state.dart';
+import '../../../product_details_page/presentation/pages/product_details_page.dart';
 
 class FruitsCategoryPage extends StatelessWidget {
   const FruitsCategoryPage({super.key});
@@ -105,6 +105,7 @@ class FruitsCategoryPage extends StatelessWidget {
                     8.verticalSpace,
                     // Search Anchor
                     TextField(
+                      // todo: Search Functionality
                       decoration: InputDecoration(
                         hintText: "Search Here",
                         hintStyle:
@@ -147,7 +148,38 @@ class FruitsCategoryPage extends StatelessWidget {
                                 trendingDeals:
                                     state.homePageModel.trendingDeals,
                                 isScrollable: true,
-                                onPressed: () {},
+                                onPressed: (index) {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          ProductDetailsPage(
+                                        // Pass arguments to the page if needed
+                                        productId: index,
+                                      ),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = Offset(
+                                            1.0, 0.0); // Start from the right
+                                        const end = Offset
+                                            .zero; // End at the current position
+                                        const curve =
+                                            Curves.easeInOut; // Smooth curve
+
+                                        var tween = Tween(
+                                                begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        var offsetAnimation =
+                                            animation.drive(tween);
+
+                                        return SlideTransition(
+                                          position: offsetAnimation,
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           } else if (state is HomePageErrorState) {

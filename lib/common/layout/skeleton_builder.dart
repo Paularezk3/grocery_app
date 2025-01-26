@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SkeletonBuilder extends StatelessWidget {
-  const SkeletonBuilder({super.key});
+  final bool isImageLoading;
+
+  /// no need for scaffold it has one
+  const SkeletonBuilder({super.key}) : isImageLoading = false;
+  const SkeletonBuilder.imageLoading({super.key}) : isImageLoading = true;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
+    if (isImageLoading) {
+      return _shimmerBox(
+          height: double.infinity, width: double.infinity, borderRadius: 0);
+    }
 
     return Scaffold(
       body: SingleChildScrollView(

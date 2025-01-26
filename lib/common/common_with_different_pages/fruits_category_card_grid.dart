@@ -8,7 +8,7 @@ class FruitsCategoryCardGrid extends StatelessWidget {
   final List<TrendingDeals> trendingDeals;
   final bool isScrollable;
   final double verticalPadding;
-  final void Function() onPressed;
+  final void Function(int) onPressed;
   const FruitsCategoryCardGrid({
     required this.trendingDeals,
     this.isScrollable = false,
@@ -39,7 +39,7 @@ class FruitsCategoryCardGrid extends StatelessWidget {
           borderRadius:
               BorderRadius.circular(18), // Match InkWell border radius
           child: InkWell(
-            onTap: onPressed,
+            onTap: () => onPressed(index),
             splashColor: AppColors.orange.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(18),
             child: Stack(
