@@ -35,6 +35,7 @@ class PrimaryButton extends StatelessWidget {
             ? _buildLoadingIndicator(context)
             : Text(
                 text.toUpperCase(),
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: isLoading ? AppColors.lightGrey : Colors.black,
                     ),

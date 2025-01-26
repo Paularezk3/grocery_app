@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common/strings.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../core/themes/app_colors.dart';
-import '../models/home_page_model.dart';
+import '../../core/themes/app_colors.dart';
+import '../../features/home/presentation/models/home_page_model.dart';
 
 class FavouriteIconAnimation extends StatefulWidget {
   const FavouriteIconAnimation({

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/common/components/default_icon.dart';
-import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
+import '../../../fruits_category_page.dart/presentation/pages/fruits_category_page.dart';
 import '../riverpod/category_page_riverpod.dart';
 import '../widgets/category_card.dart';
 
@@ -60,9 +60,29 @@ class CategoriesPage extends ConsumerWidget {
               child: InkWell(
                   enableFeedback: true,
                   onTap: () {
-                    // Navigator.of(context).pushNamed(RouteNames.fruitsCategoryPage, arguments: {
-                    //   'category': category,
-                    // });
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            FruitsCategoryPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          const begin =
+                              Offset(1.0, 0.0); // Start from the right
+                          const end =
+                              Offset.zero; // End at the current position
+                          const curve = Curves.easeInOut; // Smooth curve
+
+                          var tween = Tween(begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
+                          var offsetAnimation = animation.drive(tween);
+
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
                   },
                   borderRadius: BorderRadius.circular(32),
                   splashColor: AppColors.lightYellow,

@@ -98,7 +98,7 @@ class _SignInFormState extends State<SignInForm> {
                           return 'Email is required';
                         } else if (!RegExp(
                                 r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-                            .hasMatch(value)) {
+                            .hasMatch(value.trim())) {
                           return 'Enter a valid email address';
                         }
                         return null;

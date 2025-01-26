@@ -72,6 +72,11 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
                   title: "Grapes",
                   price: 7.2,
                   imageAssetPath: Strings.carousel6),
+              TrendingDeals(
+                  favourite: false,
+                  title: "Grapes",
+                  price: 7.2,
+                  imageAssetPath: Strings.carousel6),
             ]),
       ));
     } catch (e) {

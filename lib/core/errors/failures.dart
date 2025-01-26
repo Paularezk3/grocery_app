@@ -12,6 +12,14 @@ class NetworkFailure extends Failure {
   NetworkFailure({required super.message, super.stackTrace});
 }
 
+class ServerFailure extends Failure {
+  ServerFailure({required super.message, super.stackTrace});
+}
+
+class CacheFailure extends Failure {
+  CacheFailure({required super.message, super.stackTrace});
+}
+
 class DatabaseFailure extends Failure {
   DatabaseFailure({required super.message, super.stackTrace});
 }
