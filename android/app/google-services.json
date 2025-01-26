@@ -12,7 +12,16 @@
           "package_name": "com.example.grocery_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1029785449974-5phf2vrtbo13sg1bu5hrqg2sk06deft4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grocery_app",
+            "certificate_hash": "caa869aa3faf37d451f2357dd70571bf501ca6b6"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBAxxxSprJhWxdfNhv4cxOcoRz4RLK8pm4"
