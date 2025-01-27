@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
+import 'package:grocery_app/features/checkout/presentation/bloc/checkout_page_bloc.dart';
+import 'package:grocery_app/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:grocery_app/features/home/presentation/bloc/home_page_bloc.dart';
 import 'package:grocery_app/features/home/presentation/pages/main_home_page.dart';
 import 'package:grocery_app/features/login_auth/domain/usecases/login_user.dart';
@@ -48,23 +50,26 @@ class GroceryApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginAuthBloc>(
-          create: (context) => LoginAuthBloc(
+          create: (_) => LoginAuthBloc(
             loginUser: LoginUser(MockFirebaseLoginRepository()),
           ),
         ),
         BlocProvider<SignUpAuthBloc>(
-          create: (context) => SignUpAuthBloc(
+          create: (_) => SignUpAuthBloc(
             signUpUser: SignUpUser(MockSignUpRepository()),
           ),
         ),
         BlocProvider<HomePageBloc>(
-          create: (context) => HomePageBloc(),
+          create: (_) => HomePageBloc(),
         ),
         BlocProvider<ProductDetailsPageBloc>(
-          create: (context) => getIt<ProductDetailsPageBloc>(),
+          create: (_) => getIt<ProductDetailsPageBloc>(),
         ),
         BlocProvider<CartPageBloc>(
-          create: (context) => getIt<CartPageBloc>()..add(LoadCartItems()),
+          create: (_) => getIt<CartPageBloc>()..add(LoadCartItems()),
+        ),
+        BlocProvider<CheckoutPageBloc>(
+          create: (_) => CheckoutPageBloc(),
         ),
       ],
       child: ScreenUtilInit(
@@ -85,6 +90,7 @@ class GroceryApp extends StatelessWidget {
             RouteNames.favouritesPage: (context) => MainHomePage(pageIndex: 3),
             RouteNames.profilePage: (context) => MainHomePage(pageIndex: 4),
             RouteNames.fruitsCategoryPage: (context) => FruitsCategoryPage(),
+            RouteNames.checkoutPage: (context) => CheckoutPage(),
           },
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_state.dart';
@@ -28,7 +29,7 @@ class CartPage extends StatelessWidget {
             child: Center(
               child: TextButton(
                 onPressed: () {
-                  // Navigator.
+                  Navigator.pushNamed(context, RouteNames.checkoutPage);
                 },
                 child: Text("Place Order",
                     style: GoogleFonts.poppins(
