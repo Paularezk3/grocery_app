@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/common/components/default_icon.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
-import '../../../fruits_category_page.dart/presentation/pages/fruits_category_page.dart';
+import '../../../fruits_category_page/presentation/pages/fruits_category_page.dart';
 import '../riverpod/category_page_riverpod.dart';
 import '../widgets/category_card.dart';
 

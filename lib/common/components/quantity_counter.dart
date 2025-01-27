@@ -34,6 +34,18 @@ class _QuantityCounterState extends State<QuantityCounter> {
   }
 
   @override
+  void didUpdateWidget(covariant QuantityCounter oldWidget) {
+    _counter = widget.counterValue;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    _counter = widget.counterValue;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final containerColor = Color(0xFFEFEFEF);
     final textColor = AppColors.blackText;
@@ -54,9 +66,11 @@ class _QuantityCounterState extends State<QuantityCounter> {
                 : Icons.remove,
             onPressed: widget.canBeDeleted
                 ? (_counter > 1
-                    ? () => updateCounterValue(--_counter)
+                    ? () => updateCounterValue(_counter - 1)
                     : widget.onDeleteItem)
-                : (_counter > 1 ? () => updateCounterValue(--_counter) : null),
+                : (_counter > 1
+                    ? () => updateCounterValue(_counter - 1)
+                    : null),
             textColor: iconsColor,
           ),
           SizedBox(
@@ -75,7 +89,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
           _buildCounterButton(
             icon: Icons.add,
             onPressed:
-                _counter < 10 ? () => updateCounterValue(++_counter) : null,
+                _counter < 10 ? () => updateCounterValue(_counter + 1) : null,
             textColor: iconsColor,
           ),
         ],
@@ -109,6 +123,12 @@ class _QuantityCounterState extends State<QuantityCounter> {
   }
 
   updateCounterValue(int i) {
+    if (i < _counter) {
+      widget.onDecrement();
+    }
+    if (i > _counter) {
+      widget.onIncrement();
+    }
     setState(() {
       _counter = i;
     });

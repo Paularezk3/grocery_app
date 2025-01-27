@@ -10,8 +10,11 @@ import 'package:grocery_app/common/widget_body/error_page_state.dart';
 import 'package:grocery_app/common/widget_body/unexpected_error_page.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
 import 'package:grocery_app/features/product_details_page/presentation/blocs/product_details_page_bloc.dart';
 import 'package:grocery_app/features/product_details_page/presentation/blocs/product_details_page_state.dart';
+import '../../../cart/domain/entity/cart_item_entity_hive.dart';
 import '../blocs/product_details_page_event.dart';
 import '../widgets/product_images_carousel.dart';
 
@@ -27,32 +30,36 @@ class ProductDetailsPage extends StatelessWidget {
           : null,
       child: SafeArea(
           child: BlocBuilder<ProductDetailsPageBloc, ProductDetailsPageState>(
-              buildWhen: (previous, current) =>
-                  current is! ProductDetailsPageInitial,
-              builder: (context, state) {
-                if (state is ProductDetailsPageLoading) {
-                  return _thisPageScaffold(body: SkeletonBuilder());
-                } else if (state is ProductDetailsPageError) {
-                  return ErrorStatePage(
-                      message: state.message,
-                      onRetry: () => context
-                          .read<ProductDetailsPageBloc>()
-                          .add(LoadProductDetailsPage(productId)));
-                } else if (state is ProductDetailsPageInitial) {
-                  context
-                      .read<ProductDetailsPageBloc>()
-                      .add(LoadProductDetailsPage(productId));
-                  return const SkeletonBuilder();
-                } else if (state is ProductDetailsPageLoaded) {
-                  return _thisPageScaffold(
-                      body: _productDetailsPageLoaded(context, state));
-                } else {
-                  return UnexpectedErrorPage(
-                      onReload: () => context
-                          .read<ProductDetailsPageBloc>()
-                          .add(LoadProductDetailsPage(productId)));
-                }
-              })),
+              buildWhen: (previous, current) {
+        if (current is! ProductDetailsPageInitial &&
+            current.runtimeType != previous.runtimeType) {
+          return true;
+        }
+        return false;
+      }, builder: (context, state) {
+        if (state is ProductDetailsPageLoading) {
+          return _thisPageScaffold(body: SkeletonBuilder());
+        } else if (state is ProductDetailsPageError) {
+          return ErrorStatePage(
+              message: state.message,
+              onRetry: () => context
+                  .read<ProductDetailsPageBloc>()
+                  .add(LoadProductDetailsPage(productId)));
+        } else if (state is ProductDetailsPageInitial) {
+          context
+              .read<ProductDetailsPageBloc>()
+              .add(LoadProductDetailsPage(productId));
+          return const SkeletonBuilder();
+        } else if (state is ProductDetailsPageLoaded) {
+          return _thisPageScaffold(
+              body: _productDetailsPageLoaded(context, state));
+        } else {
+          return UnexpectedErrorPage(
+              onReload: () => context
+                  .read<ProductDetailsPageBloc>()
+                  .add(LoadProductDetailsPage(productId)));
+        }
+      })),
     );
   }
 
@@ -106,7 +113,7 @@ class ProductDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       4.verticalSpace,
-                      Text("FRUITS",
+                      Text(state.product.productName.toUpperCase(),
                           style: GoogleFonts.poppins(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -123,16 +130,24 @@ class ProductDetailsPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("\$${state.product.price.toStringAsFixed(0)}",
+                          Text("\$${state.product.price.toStringAsFixed(1)}",
                               style: GoogleFonts.poppins(
                                 fontSize: 24.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.lightYellow,
                               )),
                           QuantityCounter(
-                            counterValue: 1,
-                            onIncrement: () {},
-                            onDecrement: () {},
+                            counterValue: state.quantity,
+                            onIncrement: () {
+                              context
+                                  .read<ProductDetailsPageBloc>()
+                                  .add(IncrementQuantityCounter());
+                            },
+                            onDecrement: () {
+                              context
+                                  .read<ProductDetailsPageBloc>()
+                                  .add(DecrementQuantityCounter());
+                            },
                           ),
                         ],
                       ),
@@ -236,6 +251,9 @@ class ProductDetailsPage extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 100,
+                            )
                           ],
                         ),
                       ),
@@ -246,48 +264,70 @@ class ProductDetailsPage extends StatelessWidget {
             ),
           ),
         ]),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 96, // Adjusted height for more padding
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              children: [
-                // Green Icon Button
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3, // 20% width
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.gPercent,
-                    borderRadius:
-                        BorderRadius.circular(32), // More rounded corners
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      // Handle button action
-                    },
-                    icon: const Icon(Icons.favorite, color: Colors.white),
-                    iconSize: 28, // Icon size
-                  ),
-                ),
-                const SizedBox(width: 16), // Spacing between buttons
-
-                // Yellow Button with Text
-                Expanded(
-                    child: PrimaryButton(
-                  text: "ADD To Cart\n\$70.7",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(RouteNames.cartPage);
-                  },
-                  height: double.infinity,
-                ))
-              ],
-            ),
-          ),
-        )
+        _bottomPageContainer(context)
       ],
+    );
+  }
+
+  Positioned _bottomPageContainer(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 96, // Adjusted height for more padding
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          children: [
+            // Green Icon Button
+            Container(
+              width: MediaQuery.of(context).size.width * 0.3, // 20% width
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.gPercent,
+                borderRadius: BorderRadius.circular(32), // More rounded corners
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // Handle button action
+                },
+                icon: const Icon(Icons.favorite, color: Colors.white),
+                iconSize: 28, // Icon size
+              ),
+            ),
+            const SizedBox(width: 16), // Spacing between buttons
+
+            // Yellow Button with Text
+            BlocBuilder<ProductDetailsPageBloc, ProductDetailsPageState>(
+              buildWhen: (previous, current) {
+                if (current is ProductDetailsPageLoaded &&
+                    (previous as ProductDetailsPageLoaded).quantity !=
+                        current.quantity) {
+                  return true;
+                }
+                return false;
+              },
+              builder: (context, state) => Expanded(
+                  child: PrimaryButton(
+                text:
+                    "ADD To Cart\n\$${((state as ProductDetailsPageLoaded).product.price * state.quantity).toStringAsFixed(1)}",
+                onPressed: () {
+                  final item = state.product;
+                  context.read<CartPageBloc>().add(AddToCart(CartItemData(
+                      id: item.productId.toString(),
+                      title: item.title,
+                      category: item.productName,
+                      imagePath: item.carouselImagesBase64[0],
+                      price: item.price,
+                      quantity: state.quantity)));
+                  Navigator.of(context).popAndPushNamed(RouteNames.cartPage);
+                },
+                height: double.infinity,
+              )),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -314,7 +354,7 @@ class ProductDetailsPage extends StatelessWidget {
             ),
             4.horizontalSpace,
             Text(
-              "(${state.product.reviews.reviews.length} reviews)",
+              "(${state.product.reviews.reviewsNumber} reviews)",
               style: GoogleFonts.poppins(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
