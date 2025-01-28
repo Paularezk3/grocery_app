@@ -87,7 +87,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           horizontal: 20.w,
         ),
 
-        fillColor: Colors.white, // White background
+        fillColor: isDisabled ? AppColors.lightGrey : Colors.white,
         filled: true, // Ensure the background is visible
         suffixIcon: widget.isPassword && !isDisabled
             ? IconButton(

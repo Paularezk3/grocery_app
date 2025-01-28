@@ -36,24 +36,35 @@ dependencies:
   cached_network_image: ^3.4.1
   showcaseview: ^4.0.0
   shared_preferences: ^2.4.0
+  flutter_credit_card: ^4.0.1
+  firebase_messaging: ^15.2.1
+  app_settings: ^5.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+  flutter_launcher_icons:
   hive_generator:
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/fresh_fruits.png
     - assets/images/on_boarding_fruits.png
     - assets/images/on_boarding_delivery.png
     - assets/images/sign_up.png
     - assets/images/sign_in.png
+    - assets/images/card_bg.png
+    - assets/images/card_bg2.png
     - assets/images/small_profile.png
     - assets/images/carousels/carousel_1.png
     - assets/images/carousels/carousel_2.png

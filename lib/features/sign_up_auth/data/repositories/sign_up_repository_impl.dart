@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/sign_up_repository.dart';
@@ -25,7 +26,10 @@ class MockSignUpRepository implements SignUpRepository {
       await userCredential.user
           ?.updateDisplayName("${params.firstName} ${params.lastName}");
 
-      // Step 3: Save user data in Firestore
+      // Step 3: Get the Firebase Messaging token
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+      // Step 4: Save user data in Firestore
       final userDocRef =
           _firestore.collection('users').doc(userCredential.user?.uid);
       await userDocRef.set({
@@ -33,9 +37,10 @@ class MockSignUpRepository implements SignUpRepository {
         'lastName': params.lastName,
         'email': params.email,
         'createdAt': FieldValue.serverTimestamp(),
+        'fcmToken': fcmToken,
       });
 
-      // Step 4: Add two notifications (one read and one unread)
+      // Step 5: Add two notifications (one read and one unread)
       final notificationsCollection = userDocRef.collection('notifications');
 
       // Notification 1: Read
@@ -56,7 +61,7 @@ class MockSignUpRepository implements SignUpRepository {
         'time': FieldValue.serverTimestamp(),
       });
 
-      // Step 5: Log user out to prevent auto-login after sign-up
+      // Step 6: Log user out to prevent auto-login after sign-up
       await _firebaseAuth.signOut();
 
       return Right('Sign-up successful');

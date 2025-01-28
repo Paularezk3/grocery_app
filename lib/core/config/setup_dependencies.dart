@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:grocery_app/core/config/database_helper.dart';
 import 'package:grocery_app/features/cart/domain/usecases/decrement_from_cart_usecase.dart';
@@ -22,6 +24,10 @@ import 'package:grocery_app/features/cart/domain/entity/cart_item_entity_hive.da
 final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
+  // FCM NOTIFICATIONS PART
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   Hive.registerAdapter(hive.CartItemDataAdapter());
   final cartBox = await Hive.openBox<hive.CartItemData>('cartBox');
 
@@ -57,4 +63,10 @@ Future<void> setupDependencies() async {
       removeItemFromCart: getIt<RemoveItemFromCart>()));
   getIt.registerFactory(() =>
       ProductDetailsPageBloc(getProductDetails: getIt<GetProductDetails>()));
+}
+
+// Background message handler
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
 }

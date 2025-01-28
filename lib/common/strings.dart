@@ -37,4 +37,7 @@ class Strings {
   static const category6 = "$_categoryPath/category_6.png";
   static const category7 = "$_categoryPath/category_7.png";
   static const category8 = "$_categoryPath/category_8.png";
+
+  static const cardBg = '$_imagesPath/card_bg.png';
+  static const cardBg2 = '$_imagesPath/card_bg2.png';
 }

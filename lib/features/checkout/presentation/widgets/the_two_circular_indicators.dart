@@ -93,11 +93,11 @@ class _TheTwoCircularIndicatorsState extends State<TheTwoCircularIndicators>
                     alignment: Alignment.center,
                     children: [
                       CircleAvatar(
-                        radius: 20,
+                        radius: 15,
                         backgroundColor: AppColors.orange,
                       ),
                       CircleAvatar(
-                        radius: _leftCircleFill.value * 16,
+                        radius: _leftCircleFill.value * 12,
                         backgroundColor: AppColors.white,
                       ),
                     ],
@@ -129,11 +129,11 @@ class _TheTwoCircularIndicatorsState extends State<TheTwoCircularIndicators>
                     alignment: Alignment.center,
                     children: [
                       CircleAvatar(
-                        radius: 20,
+                        radius: 15,
                         backgroundColor: _rightCircleColor.value,
                       ),
                       CircleAvatar(
-                        radius: 16 * _rightCircleFill.value,
+                        radius: 12 * _rightCircleFill.value,
                         backgroundColor: AppColors.white,
                       ),
                     ],

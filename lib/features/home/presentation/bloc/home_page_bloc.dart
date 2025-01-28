@@ -12,6 +12,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc() : super(HomePageIdleState()) {
     on<LoadHomePage>(_onLoadHomePage);
     on<UpdateFavoriteTrendingDeal>(_onUpdateFavoriteTrendingDeal);
+    on<ResetHomePageState>((_, emit) => emit(HomePageIdleState()));
   }
   Future<void> _onLoadHomePage(
       LoadHomePage event, Emitter<HomePageState> emit) async {

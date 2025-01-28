@@ -11,3 +11,5 @@ class UpdateFavoriteTrendingDeal extends HomePageEvent {
     required this.isFavourite,
   });
 }
+
+class ResetHomePageState extends HomePageEvent {}

@@ -30,9 +30,10 @@ class _ProductImagesCarouselState extends State<ProductImagesCarousel> {
               fit: StackFit.expand,
               children: [
                 CachedImageHandler.asImage(
-                    imageUrl: item,
-                    shimmerBaseColor: Color(0xFFEEEEEE),
-                    shimmerHighlightColor: Color.fromARGB(255, 201, 201, 201)),
+                  imageUrl: item,
+                  shimmerBaseColor: Color(0xFFEEEEEE),
+                  shimmerHighlightColor: Color.fromARGB(255, 201, 201, 201),
+                ),
                 Container(
                   color:
                       AppColors.black.withValues(alpha: 0.2), // Dimming overlay

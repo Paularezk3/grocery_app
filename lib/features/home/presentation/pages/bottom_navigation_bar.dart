@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/common/components/default_icon.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_state.dart';
 
 import '../../../../common/strings.dart';
 
@@ -55,10 +58,17 @@ class DefaultBottomNavigationBar extends StatelessWidget {
         ),
         // Cart Icon with Notification
         BottomNavigationBarItem(
-          icon: DefaultIcon(
-            Icons.shopping_cart_rounded,
-            iconColor: currentIndex == 2 ? AppColors.orange : AppColors.grey,
-            hasNotification: true,
+          icon: BlocBuilder<CartPageBloc, CartPageState>(
+            buildWhen: (p, c) => p is CartLoadedState && c is CartLoadedState
+                ? p.items.cartItemData.isEmpty != c.items.cartItemData.isEmpty
+                : false,
+            builder: (_, state) => DefaultIcon(
+              Icons.shopping_cart_rounded,
+              iconColor: currentIndex == 2 ? AppColors.orange : AppColors.grey,
+              hasNotification: state is CartLoadedState
+                  ? (state.items.cartItemData.isEmpty ? false : true)
+                  : false,
+            ),
           ),
           label: 'Cart',
         ),

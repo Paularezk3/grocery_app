@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
         }
 
         if (state is HomePageLoadedState &&
-            !state.homePageModel.shouldShowShowcase) {
+            state.homePageModel.shouldShowShowcase) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ShowCaseWidget.of(context).startShowCase([_notificationKey]);
           });
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                     targetShapeBorder: const CircleBorder(),
                     showArrow: true,
                     tooltipBackgroundColor: AppColors.white,
-                    scaleAnimationDuration: Duration(milliseconds: 600),
+                    scaleAnimationDuration: Duration(milliseconds: 300),
                     tooltipBorderRadius: BorderRadius.circular(12),
                     targetPadding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

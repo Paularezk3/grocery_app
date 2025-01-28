@@ -28,11 +28,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final formKey = GlobalKey<FormState>();
   final formKey2 = GlobalKey<FormState>();
 
-  // Tracks the height adjustment based on the keyboard's visibility
-  double additionalHeight = 20 + 100 * 3;
-
   @override
   Widget build(BuildContext context) {
+    double additionalHeight = 20 + MediaQuery.of(context).viewPadding.bottom;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -84,7 +82,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             80,
                         child: SingleChildScrollView(
                           child: Padding(
-                            padding: EdgeInsets.all(24.h),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 24.h,
+                                horizontal: state.isFirstPage ? 24.h : 0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
