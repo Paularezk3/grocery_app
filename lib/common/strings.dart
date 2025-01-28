@@ -26,6 +26,7 @@ class Strings {
   static const carousel4 = "$_carouselPath/carousel_4.png";
   static const carousel5 = "$_carouselPath/carousel_5.png";
   static const carousel6 = "$_carouselPath/carousel_6.png";
+  static const carousel7 = "$_carouselPath/carousel_7.png";
 
   // Category Images
   static const category1 = "$_categoryPath/category_1.png";

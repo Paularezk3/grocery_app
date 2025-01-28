@@ -36,4 +36,18 @@ class TrendingDeals {
       required this.title,
       required this.price,
       required this.imageAssetPath});
+
+  TrendingDeals copyWith({
+    bool? favourite,
+    String? title,
+    double? price,
+    String? imageAssetPath,
+  }) {
+    return TrendingDeals(
+      favourite: favourite ?? this.favourite,
+      title: title ?? this.title,
+      price: price ?? this.price,
+      imageAssetPath: imageAssetPath ?? this.imageAssetPath,
+    );
+  }
 }

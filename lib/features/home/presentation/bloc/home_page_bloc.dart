@@ -55,27 +55,27 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
               TrendingDeals(
                   favourite: true,
                   title: "Avocado",
-                  price: 6.7,
+                  price: 4.9,
                   imageAssetPath: Strings.carousel3),
               TrendingDeals(
                   favourite: false,
+                  title: "Banana",
+                  price: 1.5,
+                  imageAssetPath: Strings.carousel7),
+              TrendingDeals(
+                  favourite: false,
                   title: "Brocoli",
-                  price: 8.7,
+                  price: 2.8,
                   imageAssetPath: Strings.carousel4),
               TrendingDeals(
                   favourite: false,
                   title: "Tomatoes",
-                  price: 4.9,
+                  price: 2.5,
                   imageAssetPath: Strings.carousel5),
               TrendingDeals(
                   favourite: false,
                   title: "Grapes",
-                  price: 7.2,
-                  imageAssetPath: Strings.carousel6),
-              TrendingDeals(
-                  favourite: false,
-                  title: "Grapes",
-                  price: 7.2,
+                  price: 3.8,
                   imageAssetPath: Strings.carousel6),
             ]),
       ));

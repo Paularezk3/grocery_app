@@ -33,6 +33,7 @@ dependencies:
   build_runner:
   hive_flutter: ^1.1.0
   animations: ^2.0.11
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,7 @@ flutter:
     - assets/images/carousels/carousel_4.png
     - assets/images/carousels/carousel_5.png
     - assets/images/carousels/carousel_6.png
+    - assets/images/carousels/carousel_7.png
     - assets/images/categories/category_1.png
     - assets/images/categories/category_2.png
     - assets/images/categories/category_3.png

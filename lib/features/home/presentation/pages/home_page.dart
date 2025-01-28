@@ -28,82 +28,7 @@ class HomePage extends StatelessWidget {
       body:
           BlocConsumer<HomePageBloc, HomePageState>(listener: (context, state) {
         if (state is HomePageErrorState && state.isSignedOut) {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              opaque: false, // Ensures the background is visible
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return Stack(
-                  children: [
-                    // Blurred Background
-                    BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child:
-                          Container(color: Colors.black.withValues(alpha: 0.2)),
-                    ),
-                    // Dialog Content
-                    Center(
-                      child: Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
-                        ),
-                        child: SizedBox(
-                          child: Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Error Happened!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.copyWith(
-                                            color: AppColors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    16.verticalSpace,
-                                    Text(
-                                      "Please Sign Out",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 40),
-                                    Hero(
-                                      tag: 'signInButton',
-                                      child: PrimaryButton(
-                                        text: 'Sign Out',
-                                        onPressed: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            RouteNames.login,
-                                            (route) => false,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
+          _signedInByMistake(context);
         }
       }, builder: (context, state) {
         if (state is HomePageIdleState) {
@@ -418,6 +343,84 @@ class HomePage extends StatelessWidget {
             70.verticalSpace
           ],
         ),
+      ),
+    );
+  }
+
+  void _signedInByMistake(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false, // Ensures the background is visible
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Stack(
+            children: [
+              // Blurred Background
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(color: Colors.black.withValues(alpha: 0.2)),
+              ),
+              // Dialog Content
+              Center(
+                child: Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  child: SizedBox(
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Error Happened!",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      color: AppColors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                              16.verticalSpace,
+                              Text(
+                                "Please Sign Out",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 40),
+                              Hero(
+                                tag: 'signInButton',
+                                child: PrimaryButton(
+                                  text: 'Sign Out',
+                                  onPressed: () {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      RouteNames.login,
+                                      (route) => false,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
+import 'package:grocery_app/core/utils/cached_image_handler.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_state.dart';
@@ -99,14 +100,10 @@ class CartPage extends StatelessWidget {
                   Container(
                     width: 80,
                     height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            item.imagePath), // Replace with actual image
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    decoration: CachedImageHandler.asBoxDecoration(
+                        imageUrl: item.imagePath,
+                        borderRadius: 12,
+                        fit: BoxFit.cover),
                   ),
                   Positioned(
                     bottom: 0,

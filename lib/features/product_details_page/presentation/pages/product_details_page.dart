@@ -65,7 +65,7 @@ class ProductDetailsPage extends StatelessWidget {
 
   Widget _thisPageScaffold({required body}) {
     return Scaffold(
-      backgroundColor: AppColors.black,
+      backgroundColor: AppColors.whiteBackground,
       body: body,
     );
   }
@@ -74,196 +74,208 @@ class ProductDetailsPage extends StatelessWidget {
       BuildContext context, ProductDetailsPageLoaded state) {
     return Stack(
       children: [
-        CustomScrollView(slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.black,
-            pinned: true,
-            collapsedHeight: 50,
-            toolbarHeight: 50,
-            expandedHeight: MediaQuery.of(context).size.height * 0.33,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              background: ProductImagesCarousel(
-                carousel: state.product.carouselImagesBase64,
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.whiteBackground,
+              pinned: true,
+              collapsedHeight: 50,
+              toolbarHeight: 50,
+              expandedHeight: MediaQuery.of(context).size.height *
+                  0.35, // Slightly increased
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.parallax,
+                background: ProductImagesCarousel(
+                  carousel: state.product.carouselImagesBase64,
+                ),
               ),
-            ),
-            leading: DefaultIcon.back(
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.share_rounded, color: AppColors.white),
-                onPressed: () {}, // Add share functionality
+              leading: DefaultIcon.back(
+                onPressed: () => Navigator.of(context).pop(),
               ),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.share_rounded, color: AppColors.white),
+                  onPressed: () {}, // Add share functionality
+                ),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      4.verticalSpace,
-                      Text(state.product.productName.toUpperCase(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        4.verticalSpace,
+                        Text(
+                          state.product.productName.toUpperCase(),
                           style: GoogleFonts.poppins(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.blackText,
-                          )),
-                      4.verticalSpace,
-                      Text(state.product.title,
+                          ),
+                        ),
+                        4.verticalSpace,
+                        Text(
+                          state.product.title,
                           style: GoogleFonts.poppins(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.blackText,
-                          )),
-                      8.verticalSpace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("\$${state.product.price.toStringAsFixed(1)}",
+                          ),
+                        ),
+                        8.verticalSpace,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "\$${state.product.price.toStringAsFixed(1)}",
                               style: GoogleFonts.poppins(
                                 fontSize: 24.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.lightYellow,
-                              )),
-                          QuantityCounter(
-                            counterValue: state.quantity,
-                            onIncrement: () {
-                              context
-                                  .read<ProductDetailsPageBloc>()
-                                  .add(IncrementQuantityCounter());
-                            },
-                            onDecrement: () {
-                              context
-                                  .read<ProductDetailsPageBloc>()
-                                  .add(DecrementQuantityCounter());
-                            },
-                          ),
-                        ],
-                      ),
-                      12.verticalSpace,
-                      _buildReviewsNumber(state),
-                      DefaultTabController(
-                        length: 2,
-                        child: Column(
-                          mainAxisSize:
-                              MainAxisSize.min, // Shrink-wrap the children
-                          children: [
-                            TabBar(
-                              labelColor: AppColors.blackText,
-                              unselectedLabelColor: AppColors.grey,
-                              indicatorColor: AppColors.lightYellow,
-                              tabs: const [
-                                Tab(text: "Description"),
-                                Tab(text: "Reviews"),
-                              ],
+                              ),
                             ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.6,
-                              child: TabBarView(
-                                children: [
-                                  SingleChildScrollView(
-                                    child: Text(
-                                      state.product.description,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.blackText,
+                            QuantityCounter(
+                              counterValue: state.quantity,
+                              onIncrement: () {
+                                context
+                                    .read<ProductDetailsPageBloc>()
+                                    .add(IncrementQuantityCounter());
+                              },
+                              onDecrement: () {
+                                context
+                                    .read<ProductDetailsPageBloc>()
+                                    .add(DecrementQuantityCounter());
+                              },
+                            ),
+                          ],
+                        ),
+                        12.verticalSpace,
+                        _buildReviewsNumber(state),
+                        DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TabBar(
+                                labelColor: AppColors.blackText,
+                                unselectedLabelColor: AppColors.grey,
+                                indicatorColor: AppColors.lightYellow,
+                                tabs: const [
+                                  Tab(text: "Description"),
+                                  Tab(text: "Reviews"),
+                                ],
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                child: TabBarView(
+                                  children: [
+                                    SingleChildScrollView(
+                                      child: Text(
+                                        state.product.description,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.blackText,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SingleChildScrollView(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: state.product.reviews.reviews
-                                            .map((review) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  child: Text(review.name[0]),
-                                                ),
-                                                8.horizontalSpace,
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        review.name,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14.sp,
+                                    SingleChildScrollView(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: state
+                                              .product.reviews.reviews
+                                              .map((review) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    child: Text(review.name[0]),
+                                                  ),
+                                                  8.horizontalSpace,
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          review.name,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 14.sp,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      4.verticalSpace,
-                                                      Text(
-                                                        review.review,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          fontSize: 14.sp,
+                                                        4.verticalSpace,
+                                                        Text(
+                                                          review.review,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            fontSize: 14.sp,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      4.verticalSpace,
-                                                      Row(
-                                                        children: List.generate(
+                                                        4.verticalSpace,
+                                                        Row(
+                                                          children:
+                                                              List.generate(
                                                             review.rating
                                                                 .round(),
                                                             (index) {
-                                                          return Icon(
-                                                            Icons.star,
-                                                            color: AppColors
-                                                                .lightYellow,
-                                                            size: 16,
-                                                          );
-                                                        }),
-                                                      ),
-                                                    ],
+                                                              return Icon(
+                                                                Icons.star,
+                                                                color: AppColors
+                                                                    .lightYellow,
+                                                                size: 16,
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
+                                                ],
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 100,
-                            )
-                          ],
+                              SizedBox(height: 100),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
         _bottomPageContainer(context)
       ],
     );
