@@ -33,29 +33,6 @@ class _ProductImagesCarouselState extends State<ProductImagesCarousel> {
                     imageUrl: item,
                     shimmerBaseColor: Color(0xFFEEEEEE),
                     shimmerHighlightColor: Color.fromARGB(255, 201, 201, 201)),
-                // Image.network(
-                //   item, // Dynamic photo URL
-                //   fit: BoxFit.cover,
-                //   loadingBuilder: (context, child, loadingProgress) {
-                //     if (loadingProgress == null) {
-                //       // The image has been fully loaded
-                //       return child;
-                //     } else {
-                //       // Show skeleton builder while loading
-                //       return SkeletonBuilder.imageLoading();
-                //     }
-                //   },
-                //   errorBuilder: (context, error, stackTrace) {
-                //     // Handle image load failure
-                //     return Center(
-                //       child: Icon(
-                //         Icons.broken_image,
-                //         size: 40,
-                //         color: Colors.grey,
-                //       ),
-                //     );
-                //   },
-                // ),
                 Container(
                   color:
                       AppColors.black.withValues(alpha: 0.2), // Dimming overlay

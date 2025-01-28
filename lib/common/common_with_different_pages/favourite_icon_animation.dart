@@ -12,7 +12,7 @@ class FavouriteIconAnimation extends StatefulWidget {
   });
 
   final TrendingDeals item;
-  final VoidCallback onPressed;
+  final void Function(bool) onPressed;
 
   @override
   State<FavouriteIconAnimation> createState() => _FavouriteIconAnimationState();
@@ -31,7 +31,7 @@ class _FavouriteIconAnimationState extends State<FavouriteIconAnimation> {
     setState(() {
       _isFavourite = !_isFavourite;
     });
-    widget.onPressed(); // Notify the parent about the state change
+    widget.onPressed(_isFavourite); // Notify the parent about the state change
   }
 
   @override

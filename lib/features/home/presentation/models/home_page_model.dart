@@ -26,7 +26,7 @@ class CarouselItems {
 }
 
 class TrendingDeals {
-  final bool favourite;
+  bool favourite;
   final String title;
   final double price;
   final String imageAssetPath;
