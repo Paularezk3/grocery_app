@@ -54,8 +54,10 @@ class _MainHomePageState extends State<MainHomePage> {
                   HomePage(onTabChange: _onItemTapped),
                   CategoriesPage(onTabChange: _onItemTapped),
                   CartPage(),
-                  FavoritesPage(),
-                  ProfilePage(),
+                  FavoritesPage(onTabChange: _onItemTapped),
+                  ProfilePage(
+                    onTabChange: _onItemTapped,
+                  ),
                 ],
               ),
 

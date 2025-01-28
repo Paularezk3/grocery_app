@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/features/home/presentation/models/home_page_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page_event.dart';
 import 'home_page_state.dart';
@@ -68,7 +69,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
 
       emit(HomePageLoadedState(
         homePageModel: HomePageModel(
+            uidFirebase: user.uid,
             greetingMessage: _getGreetingMessage(),
+            shouldShowShowcase: await _shouldShowShowcase(),
             userFirstName: userDoc.get("firstName"),
             userLastName: userDoc.get("lastName"),
             carouselItems: [
@@ -131,6 +134,16 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       emit(HomePageErrorState(
           message: e.toString(), isSignedOut: e.toString().contains("#402")));
     }
+  }
+
+  Future<bool> _shouldShowShowcase() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenShowcase = prefs.getBool('hasSeenShowcase') ?? false;
+
+    if (!hasSeenShowcase) {
+      await prefs.setBool('hasSeenShowcase', true);
+    }
+    return !hasSeenShowcase;
   }
 
   String _getGreetingMessage() {

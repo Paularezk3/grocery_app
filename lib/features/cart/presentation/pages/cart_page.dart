@@ -30,7 +30,12 @@ class CartPage extends StatelessWidget {
             child: Center(
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, RouteNames.checkoutPage);
+                  (context.read<CartPageBloc>().state as CartLoadedState)
+                          .items
+                          .cartItemData
+                          .isEmpty
+                      ? null
+                      : Navigator.pushNamed(context, RouteNames.checkoutPage);
                 },
                 child: Text("Place Order",
                     style: GoogleFonts.poppins(
@@ -83,8 +88,14 @@ class CartPage extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white),
       ),
       onDismissed: (direction) {
-        // Handle delete action
-        context.read<CartPageBloc>().add(RemoveFromCart(item));
+        // Remove the item from the underlying list first
+        final cartBloc = context.read<CartPageBloc>();
+        cartBloc.add(RemoveFromCart(item));
+        // Remove the dismissed item from the UI
+        (cartBloc.state as CartLoadedState)
+            .items
+            .cartItemData
+            .remove(item); // Adjust based on your state structure
       },
       child: Card(
         color: Colors.white,

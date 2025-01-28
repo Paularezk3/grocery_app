@@ -36,7 +36,8 @@ class SignUpPage extends StatelessWidget {
                     // Blurred Background
                     BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child: Container(color: Colors.black.withOpacity(0.2)),
+                      child:
+                          Container(color: Colors.black.withValues(alpha: 0.2)),
                     ),
                     // Dialog Content
                     Center(
@@ -87,7 +88,7 @@ class SignUpPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
-                                      "John Doe", // Replace with user details
+                                      "${state.message.firstName} ${state.message.lastName}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge

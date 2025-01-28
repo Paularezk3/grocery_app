@@ -1,13 +1,17 @@
 class HomePageModel {
   final String userFirstName;
   final String userLastName;
+  final String uidFirebase;
   final String greetingMessage;
+  final bool shouldShowShowcase;
   final List<CategoryItems> categoryItems;
   final List<CarouselItems> carouselItems;
   final List<TrendingDeals> trendingDeals;
   HomePageModel(
       {required this.categoryItems,
+      required this.uidFirebase,
       required this.trendingDeals,
+      required this.shouldShowShowcase,
       required this.carouselItems,
       required this.greetingMessage,
       required this.userFirstName,

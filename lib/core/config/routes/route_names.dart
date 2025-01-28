@@ -4,6 +4,7 @@ class RouteNames {
   static const String splashScreen = '/splash';
   static const String login = '/login';
   static const String signUp = '/signup';
+  static const String onboardingFromInside = "/onboardingToLogin";
 
   // Navigation Bar
   static const String homePage = '/homepage';

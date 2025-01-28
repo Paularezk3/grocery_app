@@ -15,6 +15,7 @@ import 'package:grocery_app/features/sign_up_auth/data/repositories/sign_up_repo
 import 'package:grocery_app/features/sign_up_auth/domain/usecases/sign_up_user.dart';
 import 'package:grocery_app/features/sign_up_auth/presentation/bloc/sign_up_auth_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'core/config/routes/route_names.dart';
 import 'core/config/setup_dependencies.dart';
 import 'core/themes/app_theme.dart';
@@ -72,28 +73,36 @@ class GroceryApp extends StatelessWidget {
           create: (_) => CheckoutPageBloc(),
         ),
       ],
-      child: ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) => MaterialApp(
-          theme: AppTheme.lightTheme,
-          initialRoute: '/splash',
-          routes: {
-            RouteNames.splashScreen: (context) => const SplashScreen(),
-            RouteNames.onboarding: (context) => const OnboardingPage(),
-            RouteNames.login: (context) => LoginPage(),
-            RouteNames.signUp: (context) => SignUpPage(),
-            RouteNames.homePage: (context) => MainHomePage(),
-            RouteNames.cartPage: (context) => MainHomePage(pageIndex: 2),
-            RouteNames.categoriesPage: (context) => MainHomePage(pageIndex: 1),
-            RouteNames.favouritesPage: (context) => MainHomePage(pageIndex: 3),
-            RouteNames.profilePage: (context) => MainHomePage(pageIndex: 4),
-            RouteNames.fruitsCategoryPage: (context) => FruitsCategoryPage(),
-            RouteNames.checkoutPage: (context) => CheckoutPage(),
-          },
-        ),
-      ),
+      child: ShowCaseWidget(builder: (context) {
+        return ScreenUtilInit(
+          designSize: const Size(375, 812),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) => MaterialApp(
+            theme: AppTheme.lightTheme,
+            initialRoute: '/splash',
+            routes: {
+              RouteNames.splashScreen: (context) => const SplashScreen(),
+              RouteNames.onboarding: (context) => const OnboardingPage(),
+              RouteNames.onboardingFromInside: (context) =>
+                  const OnboardingPage(
+                    onBoardingPage: 2,
+                  ),
+              RouteNames.login: (context) => LoginPage(),
+              RouteNames.signUp: (context) => SignUpPage(),
+              RouteNames.homePage: (context) => MainHomePage(),
+              RouteNames.cartPage: (context) => MainHomePage(pageIndex: 2),
+              RouteNames.categoriesPage: (context) =>
+                  MainHomePage(pageIndex: 1),
+              RouteNames.favouritesPage: (context) =>
+                  MainHomePage(pageIndex: 3),
+              RouteNames.profilePage: (context) => MainHomePage(pageIndex: 4),
+              RouteNames.fruitsCategoryPage: (context) => FruitsCategoryPage(),
+              RouteNames.checkoutPage: (context) => CheckoutPage(),
+            },
+          ),
+        );
+      }),
     );
   }
 }
