@@ -9,7 +9,7 @@ Welcome to the **Grocery Mobile App**, a **cross-platform** shopping app built w
 🔹 **Handles everything independently** – no backend developer required.  
 
 📖 **Full Documentation Available:**  
-🔗 **[Check Out the Notion Page](#)** (Complete project breakdown, architecture, and scalability roadmap)  
+🔗 **[Check Out the Notion Page](https://flannel-debt-4fb.notion.site/DOCS-Future-Improvements-Scalability-Suggestions-18a417bad32e8028997bd07245c08df8?pvs=4)** (Complete project breakdown, architecture, and scalability roadmap)  
 
 ---
 
