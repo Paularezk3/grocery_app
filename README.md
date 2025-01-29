@@ -6,10 +6,23 @@ Welcome to the **Grocery Mobile App**, a **cross-platform** shopping app built w
 
 🔹 **Built from scratch in just 6 days** – development speed proven in Git commit history!  
 🔹 **Optimized for performance & scalability** – clean architecture, caching, & smooth animations.  
-🔹 **Handles everything independently** – no backend developer required.  
+🔹 **Handles everything independently** – no backend developer required.
 
 📖 **Full Documentation Available:**  
-🔗 **[Check Out the Notion Page](https://flannel-debt-4fb.notion.site/DOCS-Future-Improvements-Scalability-Suggestions-18a417bad32e8028997bd07245c08df8?pvs=4)** (Complete project breakdown, architecture, and scalability roadmap)  
+🔗 **[Check Out the Notion Page](https://flannel-debt-4fb.notion.site/DOCS-Future-Improvements-Scalability-Suggestions-18a417bad32e8028997bd07245c08df8?pvs=4)** (Complete project breakdown, architecture, and scalability roadmap)
+
+---
+
+## 📸 App Screenshots
+
+Here are some previews of the Grocery Mobile App:
+
+| ![Screen 1](screenshots/1.jpg) | ![Screen 2](screenshots/2.jpg) | ![Screen 3](screenshots/3.jpg) |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| ![Screen 4](screenshots/4.jpg) | ![Screen 5](screenshots/5.jpg) | ![Screen 6](screenshots/6.jpg) |
+| ![Screen 7](screenshots/7.jpg) | ![Screen 8](screenshots/8.jpg) | ![Screen 9](screenshots/9.jpg) |
+
+For the full set of screenshots, check the `screenshots/` directory.
 
 ---
 
@@ -21,69 +34,74 @@ Welcome to the **Grocery Mobile App**, a **cross-platform** shopping app built w
 ✅ **Push Notifications** – Firebase Cloud Messaging (FCM) for order updates & promotions.  
 ✅ **Advanced UI/UX** – Smooth animations, lazy-loaded images, and optimized navigation.  
 ✅ **Analytics & Engagement** – Firebase Analytics for tracking user behavior.  
-✅ **Scalable Architecture** – Built using **BLoC for state management** & **SOLID principles**.  
+✅ **Scalable Architecture** – Built using **BLoC for state management** & **SOLID principles**.
 
 ---
 
 ## 🚀 **Why This App Stands Out**
+
 ✔ **Developed in Record Time** – Check the **GitHub commit history** & branches to verify the speed of execution.  
 ✔ **Future-Ready** – Easily expandable with features like **AI-powered recommendations, loyalty programs, and multi-vendor support**.  
 ✔ **Cost-Effective** – Eliminates the need for a backend developer by leveraging Firebase’s full-stack capabilities.  
-✔ **Fully Documented** – Includes a **structured Notion documentation** to ensure easy scalability & onboarding for new developers.  
+✔ **Fully Documented** – Includes a **structured Notion documentation** to ensure easy scalability & onboarding for new developers.
 
 ---
 
-## 📂 **Project Structure**  
+## 📂 **Project Structure**
+
 ```
 lib/
 │
 ├── core/                 # Shared utilities, themes, and constants
 │
-├── data/  
-│   ├── models/           # Data models  
-│   ├── repositories/     # Handles API & local storage  
-│   ├── datasources/      # Firestore & caching integration  
+├── data/
+│   ├── models/           # Data models
+│   ├── repositories/     # Handles API & local storage
+│   ├── datasources/      # Firestore & caching integration
 │
-├── domain/               # Business logic  
-│   ├── entities/  
-│   ├── usecases/  
-│   ├── repositories/  
+├── domain/               # Business logic
+│   ├── entities/
+│   ├── usecases/
+│   ├── repositories/
 │
-├── presentation/         # UI Layer  
-│   ├── pages/            # Screens (Login, Checkout, etc.)  
-│   ├── widgets/          # Reusable UI components  
-│   ├── blocs/            # State management using BLoC  
+├── presentation/         # UI Layer
+│   ├── pages/            # Screens (Login, Checkout, etc.)
+│   ├── widgets/          # Reusable UI components
+│   ├── blocs/            # State management using BLoC
 │
-└── main.dart             # Entry point  
+└── main.dart             # Entry point
 ```
 
 ---
-
 
 ---
 
 ## 🛠️ **Installation & Setup**
 
 ### **1️⃣ Clone the Repository**
+
 ```bash
 git clone https://github.com/your-repo-name.git
 cd your-repo-name
 ```
 
 ### **2️⃣ Install Dependencies**
+
 ```
 flutter pub get
 ```
 
 ### **3️⃣ Configure Firebase**
- 1. **Set up Firebase for your project.**
- 2. **Download the google-services.json (Android) and GoogleService-Info.plist (iOS) files.**
- 3. **Place them in:**
-   * android/app/ → google-services.json
-   * ios/Runner/ → GoogleService-Info.plist
 
+1.  **Set up Firebase for your project.**
+2.  **Download the google-services.json (Android) and GoogleService-Info.plist (iOS) files.**
+3.  **Place them in:**
+
+- android/app/ → google-services.json
+- ios/Runner/ → GoogleService-Info.plist
 
 ### **5️⃣ Build for Release**
+
 ```
 flutter build apk --release
 flutter build ios --release
@@ -94,18 +112,18 @@ flutter build ios --release
 📌 AI-Powered Personalized Recommendations – Machine learning-based product suggestions.  
 📌 Loyalty & Rewards System – Customer retention through discounts & points.  
 📌 Multi-Vendor Expansion – Transforming into a full grocery marketplace.  
-📌 Backend API Integration – Potential migration to a Node.js or FastAPI backend for enterprise-level scalability.  
+📌 Backend API Integration – Potential migration to a Node.js or FastAPI backend for enterprise-level scalability.
 
-# 🌟 Why This Project is a Game-Changer  
+# 🌟 Why This Project is a Game-Changer
 
 🚀 Built for speed – Developed in just 6 days while maintaining clean architecture & high performance.  
 💡 Future-proof – Designed for easy feature additions & scaling without major code rewrites.  
-📖 Complete Documentation – New developers can onboard quickly thanks to structured SOPs & AI-driven workflow optimization.  
+📖 Complete Documentation – New developers can onboard quickly thanks to structured SOPs & AI-driven workflow optimization.
 
-🎯 Check Out the Full Documentation Here  
+🎯 Check Out the Full Documentation Here
 
-# 📜 License  
+# 📜 License
 
-This project is open-source under the MIT License. Contributions are welcome!  
+This project is open-source under the MIT License. Contributions are welcome!
 
-📧 Want to collaborate? Contact me!  
+📧 Want to collaborate? Contact me!

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
@@ -32,6 +33,15 @@ Future<void> setupDependencies() async {
       () => AnalyticsService(FirebaseAnalytics.instance));
 
   // FCM NOTIFICATIONS PART
+  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+    // Update the token in Firestore for the signed-in user
+    if (FirebaseAuth.instance.currentUser != null) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'fcmToken': newToken});
+    }
+  });
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   Hive.registerAdapter(hive.CartItemDataAdapter());

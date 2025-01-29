@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grocery_app/common/strings.dart';
@@ -38,15 +36,6 @@ class _SplashScreenState extends State<SplashScreen>
     // Check authentication state and navigate accordingly
     Future.delayed(const Duration(seconds: 3), _navigateToNextScreen);
     user = FirebaseAuth.instance.currentUser;
-    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-      // Update the token in Firestore for the signed-in user
-      if (user != null) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(user!.uid)
-            .update({'fcmToken': newToken});
-      }
-    });
   }
 
   Future<void> _navigateToNextScreen() async {
