@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -166,6 +167,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                             "quantity": item.quantity
                                           })
                                       .toList());
+
+                              FirebaseFirestore.instance
+                                  .collection("orders")
+                                  .add({
+                                "orderDate": Timestamp.now(),
+                                "items": (context.read<CartPageBloc>().state
+                                        as CartLoadedState)
+                                    .items
+                                    .cartItemData
+                                    .map((item) => {
+                                          "product_id": item.id,
+                                          "product_name": item.title,
+                                          "price": item.price,
+                                          "quantity": item.quantity
+                                        })
+                                    .toList(), // Store as a list under "items"
+                              });
+
                               // Confirm the order
                               Navigator.of(context).pushReplacement(
                                 PageRouteBuilder(
