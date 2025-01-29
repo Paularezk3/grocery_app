@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/config/setup_dependencies.dart';
+import 'package:grocery_app/core/utils/analytics_service.dart';
 import '../../domain/usecases/add_item_to_cart.dart';
 import '../../domain/usecases/decrement_from_cart_usecase.dart';
 import '../../domain/usecases/get_cart_item.dart';
@@ -36,6 +38,10 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
 
   Future<void> _onAddToCart(
       AddToCart event, Emitter<CartPageState> emit) async {
+    getIt<AnalyticsService>().logAddToCart(
+        productId: event.item.id,
+        productName: event.item.title,
+        price: event.item.price);
     if (state is CartLoadedState) {
       final result = await addItemToCart(event.item);
       result.fold(

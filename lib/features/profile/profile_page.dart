@@ -6,7 +6,9 @@ import 'package:grocery_app/common/components/primary_button.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
 
 import '../../common/components/default_icon.dart';
+import '../../core/config/setup_dependencies.dart';
 import '../../core/themes/app_colors.dart';
+import '../../core/utils/analytics_service.dart';
 
 class ProfilePage extends StatelessWidget {
   final Function(int) onTabChange;
@@ -89,6 +91,8 @@ class ProfilePage extends StatelessWidget {
                           .onboardingFromInside, // Replace with your login route name
                       (route) => false,
                     );
+
+                    getIt<AnalyticsService>().logUserSignOut();
                   },
                 ),
               ),

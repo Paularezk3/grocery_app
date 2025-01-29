@@ -39,12 +39,16 @@ dependencies:
   flutter_credit_card: ^4.0.1
   firebase_messaging: ^15.2.1
   app_settings: ^5.1.1
+  flutter_staggered_animations:
+  timelines_plus: ^1.0.6
+  firebase_analytics:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+  rename_app:
   flutter_launcher_icons:
   hive_generator:
 
@@ -61,6 +65,7 @@ flutter:
     - assets/images/fresh_fruits.png
     - assets/images/on_boarding_fruits.png
     - assets/images/on_boarding_delivery.png
+    - assets/images/motorcycle.png
     - assets/images/sign_up.png
     - assets/images/sign_in.png
     - assets/images/card_bg.png

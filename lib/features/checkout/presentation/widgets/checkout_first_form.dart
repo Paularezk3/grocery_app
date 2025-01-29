@@ -8,17 +8,19 @@ import 'package:grocery_app/features/checkout/presentation/widgets/text_with_tex
 import '../bloc/checkout_page_bloc.dart';
 
 class CheckoutFirstForm extends StatefulWidget {
-  final GlobalKey formKey;
+  // final GlobalKey formKey;
   final CheckoutDataEntity checkoutData;
   const CheckoutFirstForm(
-      {required this.formKey, required this.checkoutData, super.key});
+      {
+      // required this.formKey,
+      required this.checkoutData,
+      super.key});
 
   @override
   State<CheckoutFirstForm> createState() => _CheckoutFirstFormState();
 }
 
 class _CheckoutFirstFormState extends State<CheckoutFirstForm> {
-  late GlobalKey formKey;
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -29,7 +31,6 @@ class _CheckoutFirstFormState extends State<CheckoutFirstForm> {
 
   @override
   void initState() {
-    formKey = widget.formKey;
     fullNameController.text = widget.checkoutData.fullName ?? "";
     emailController.text = widget.checkoutData.emailAddress ?? "";
     super.initState();
@@ -52,7 +53,7 @@ class _CheckoutFirstFormState extends State<CheckoutFirstForm> {
     final isLoading =
         context.read<CheckoutPageBloc>().state is CheckoutPageLoading;
     return Form(
-      key: formKey,
+      // key: widget.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

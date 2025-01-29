@@ -8,6 +8,8 @@ import 'package:grocery_app/features/home/presentation/bloc/home_page_event.dart
 import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_bloc.dart';
 import 'package:grocery_app/features/login_auth/presentation/bloc/login_auth_state.dart';
 import '../../../../common/components/default_icon.dart';
+import '../../../../core/config/setup_dependencies.dart';
+import '../../../../core/utils/analytics_service.dart';
 import '../../../home/presentation/bloc/home_page_bloc.dart';
 import '../../../home/presentation/pages/main_home_page.dart';
 import '../widgets/sign_in_form.dart';
@@ -17,6 +19,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt<AnalyticsService>().logScreenView(screenName: "Sign in Page");
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: BlocConsumer<LoginAuthBloc, LoginAuthState>(

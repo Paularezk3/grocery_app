@@ -14,6 +14,8 @@ import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart'
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
 import 'package:grocery_app/features/product_details_page/presentation/blocs/product_details_page_bloc.dart';
 import 'package:grocery_app/features/product_details_page/presentation/blocs/product_details_page_state.dart';
+import '../../../../core/config/setup_dependencies.dart';
+import '../../../../core/utils/analytics_service.dart';
 import '../../../cart/domain/entity/cart_item_entity_hive.dart';
 import '../blocs/product_details_page_event.dart';
 import '../widgets/product_images_carousel.dart';
@@ -24,6 +26,7 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt<AnalyticsService>().logScreenView(screenName: "Product Details Page");
     return PopScope(
       onPopInvokedWithResult: (didPop, result) => didPop
           ? context.read<ProductDetailsPageBloc>().add(ReturnToInitialState())

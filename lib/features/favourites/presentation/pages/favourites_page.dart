@@ -8,7 +8,9 @@ import 'package:grocery_app/features/home/presentation/bloc/home_page_state.dart
 
 import '../../../../common/components/default_icon.dart';
 import '../../../../core/config/routes/route_names.dart';
+import '../../../../core/config/setup_dependencies.dart';
 import '../../../../core/themes/app_colors.dart';
+import '../../../../core/utils/analytics_service.dart';
 
 class FavoritesPage extends StatelessWidget {
   final Function(int) onTabChange;
@@ -16,6 +18,7 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt<AnalyticsService>().logScreenView(screenName: "Favourites Page");
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.white,

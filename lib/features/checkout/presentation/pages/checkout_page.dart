@@ -8,11 +8,16 @@ import 'package:grocery_app/common/components/primary_button.dart';
 import 'package:grocery_app/common/layout/skeleton_builder.dart';
 import 'package:grocery_app/common/widget_body/error_page_state.dart';
 import 'package:grocery_app/common/widget_body/unexpected_error_page.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
+import 'package:grocery_app/features/cart/presentation/bloc/cart_page_state.dart';
 import 'package:grocery_app/features/checkout/presentation/bloc/checkout_page_bloc.dart';
 import 'package:grocery_app/features/checkout/presentation/bloc/checkout_page_state.dart';
+import 'package:grocery_app/features/checkout/presentation/pages/thank_you_page.dart';
 import 'package:grocery_app/features/checkout/presentation/widgets/checkout_first_form.dart';
 
+import '../../../../core/config/setup_dependencies.dart';
 import '../../../../core/themes/app_colors.dart';
+import '../../../../core/utils/analytics_service.dart';
 import '../bloc/checkout_page_event.dart';
 import '../widgets/checkout_second_page_body.dart';
 import '../widgets/the_two_circular_indicators.dart';
@@ -25,8 +30,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  final formKey = GlobalKey<FormState>();
-  final formKey2 = GlobalKey<FormState>();
+  // final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +72,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
               return Stack(
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TheTwoCircularIndicators(
-                        isFirstPage: state.isFirstPage,
-                      ),
+                      TheTwoCircularIndicators(isFirstPage: state.isFirstPage),
                       SizedBox(
                         height: MediaQuery.of(context).size.height -
                             MediaQuery.of(context).padding.bottom -
@@ -83,10 +84,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 24.h,
-                                horizontal: state.isFirstPage ? 24.h : 0),
+                              vertical: 24.h,
+                              horizontal: state.isFirstPage ? 24.h : 0,
+                            ),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PageTransitionSwitcher(
@@ -98,25 +99,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       position: Tween<Offset>(
                                         begin: const Offset(1.0, 0.0),
                                         end: Offset.zero,
-                                      ).animate(animation),
+                                      ).animate(CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.easeInOutCubic)),
                                       child: child,
                                     );
                                   },
                                   child: state.isFirstPage
                                       ? CheckoutFirstForm(
                                           key: const ValueKey("FirstPageForm"),
-                                          formKey: formKey,
+                                          // formKey: formKey,
                                           checkoutData: state.checkoutData,
                                         )
                                       : CheckoutSecondPageBody(
                                           key: const ValueKey("SecondPageForm"),
-                                          formKey: formKey2,
+                                          // formKey: formKey,
                                           checkoutData: state.checkoutData,
                                         ),
                                 ),
-                                SizedBox(
-                                  height: additionalHeight,
-                                ),
+                                SizedBox(height: additionalHeight),
                               ],
                             ),
                           ),
@@ -136,19 +137,62 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         child: PrimaryButton(
                           text: state.isFirstPage ? "Next" : "Confirm ORDER",
                           onPressed: () {
-                            // if (formKey.currentState != null &&
-                            //     formKey.currentState!.validate()) {
                             if (state.isFirstPage) {
-                              context.read<CheckoutPageBloc>().add(GoToThisPage(
-                                  isFirstPage:
-                                      false)); // Trigger the transition
-                              // } else {
-                              //   // Confirm the order
-                              // }
-                              // } else {
-                              //   context.showSnackBar(
-                              //       context, "Please fill all required fields");
-                              // }
+                              context
+                                  .read<CheckoutPageBloc>()
+                                  .add(GoToThisPage(isFirstPage: false));
+                            } else {
+                              getIt<AnalyticsService>().logPurchase(
+                                  orderId: "order_${DateTime.now()}",
+                                  totalAmount: (context
+                                          .read<CartPageBloc>()
+                                          .state as CartLoadedState)
+                                      .items
+                                      .cartItemData
+                                      .fold(
+                                          0,
+                                          (previous, element) =>
+                                              previous +
+                                              (element.price *
+                                                  element.quantity)),
+                                  items: (context.read<CartPageBloc>().state
+                                          as CartLoadedState)
+                                      .items
+                                      .cartItemData
+                                      .map((item) => {
+                                            "product_id": item.id,
+                                            "product_name": item.title,
+                                            "price": item.price,
+                                            "quantity": item.quantity
+                                          })
+                                      .toList());
+                              // Confirm the order
+                              Navigator.of(context).pushReplacement(
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      ThankYouPage(),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    const curve = Curves.easeInOutCubic;
+                                    final tween = Tween(
+                                            begin: Offset(0, 1),
+                                            end: Offset(0, 0))
+                                        .chain(CurveTween(curve: curve));
+                                    final offsetAnimation =
+                                        animation.drive(tween);
+
+                                    return SlideTransition(
+                                      position: offsetAnimation,
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+
+                              context
+                                  .read<CheckoutPageBloc>()
+                                  .add(GoToThisPage(isFirstPage: true));
                             }
                           },
                         ),

@@ -10,6 +10,8 @@ import 'package:grocery_app/core/config/routes/route_names.dart';
 import 'package:grocery_app/core/themes/app_colors.dart';
 import '../../../../common/components/default_icon.dart';
 import '../../../../common/components/primary_button.dart';
+import '../../../../core/config/setup_dependencies.dart';
+import '../../../../core/utils/analytics_service.dart';
 import '../../../../core/utils/snackbar_utils.dart';
 import '../bloc/sign_up_auth_bloc.dart';
 import '../bloc/sign_up_auth_state.dart';
@@ -21,6 +23,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    getIt<AnalyticsService>().logScreenView(screenName: "Sign Up Page");
 
     return Scaffold(
       body: BlocConsumer<SignUpAuthBloc, SignUpAuthState>(

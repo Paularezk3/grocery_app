@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
@@ -21,11 +22,16 @@ import '../../features/product_details_page/presentation/blocs/product_details_p
 import 'package:grocery_app/features/cart/domain/entity/cart_item_entity_hive.dart'
     as hive;
 
+import '../utils/analytics_service.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
-  // FCM NOTIFICATIONS PART
+  // Register Firebase Analytics
+  getIt.registerLazySingleton(
+      () => AnalyticsService(FirebaseAnalytics.instance));
 
+  // FCM NOTIFICATIONS PART
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   Hive.registerAdapter(hive.CartItemDataAdapter());

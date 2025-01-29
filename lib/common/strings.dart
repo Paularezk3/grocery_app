@@ -18,6 +18,7 @@ class Strings {
   static const signUpPhoto = "$_imagesPath/sign_up.png";
   static const signInPhoto = "$_imagesPath/sign_in.png";
   static const smallProfileImage = "$_imagesPath/small_profile.png";
+  static const motorcycleImage = "$_imagesPath/motorcycle.png";
 
   // carousel images
   static const carousel1 = "$_carouselPath/carousel_1.png";

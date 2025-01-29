@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/core/config/routes/route_names.dart';
+import 'package:grocery_app/core/config/setup_dependencies.dart';
+import 'package:grocery_app/core/utils/analytics_service.dart';
 import 'package:grocery_app/core/utils/cached_image_handler.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_bloc.dart';
 import 'package:grocery_app/features/cart/presentation/bloc/cart_page_event.dart';
@@ -88,6 +90,8 @@ class CartPage extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white),
       ),
       onDismissed: (direction) {
+        getIt<AnalyticsService>().logRemoveFromCart(
+            productId: item.id, productName: item.title, price: item.price);
         // Remove the item from the underlying list first
         final cartBloc = context.read<CartPageBloc>();
         cartBloc.add(RemoveFromCart(item));

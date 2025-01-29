@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/common/strings.dart';
 import 'package:grocery_app/features/checkout/domain/entity/checkout_data_entity.dart';
 import 'package:grocery_app/features/checkout/presentation/bloc/checkout_page_state.dart';
@@ -11,17 +12,20 @@ import '../../../../core/themes/app_colors.dart';
 import '../bloc/checkout_page_bloc.dart';
 
 class CheckoutSecondPageBody extends StatefulWidget {
-  final GlobalKey formKey;
+  // final GlobalKey formKey;
   final CheckoutDataEntity checkoutData;
   const CheckoutSecondPageBody(
-      {required this.formKey, required this.checkoutData, super.key});
+      {
+      // required this.formKey,
+      required this.checkoutData,
+      super.key});
 
   @override
   State<CheckoutSecondPageBody> createState() => _CheckoutSecondPageBodyState();
 }
 
 class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
-  late GlobalKey formKey;
+  bool isCheckboxChecked = true;
   final cardHolderNameController = TextEditingController();
   final cardNumber = TextEditingController();
   final phoneController = TextEditingController();
@@ -32,7 +36,6 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
 
   @override
   void initState() {
-    formKey = widget.formKey;
     cardHolderNameController.text =
         widget.checkoutData.fullName ?? "Md Rafatul islam";
     cardNumber.text = "333 4444 5555 6666";
@@ -56,14 +59,14 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
     final isLoading =
         context.read<CheckoutPageBloc>().state is CheckoutPageLoading;
     return Form(
-      key: formKey,
+      // key: widget.formKey,
       child: Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 300,
+              height: 206,
               child: ListView(
                   scrollDirection: Axis.horizontal,
                   clipBehavior: Clip.none,
@@ -99,7 +102,7 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
                       isSwipeGestureEnabled: true,
                       animationDuration: Duration(milliseconds: 1000),
                       chipColor: Colors.yellow[800],
-                      padding: 16,
+                      padding: 8,
                     ),
                     CreditCardWidget(
                       cardNumber: "4216 1212 2222 4846",
@@ -131,10 +134,11 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
                       isSwipeGestureEnabled: true,
                       animationDuration: Duration(milliseconds: 1000),
                       chipColor: Colors.yellow[800],
-                      padding: 16,
+                      padding: 8,
                     ),
                   ]),
             ),
+            16.verticalSpace,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextWithTextField(
@@ -211,9 +215,21 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
                       },
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => {},
-                    child: Container(
+                ],
+              ),
+            ),
+            16.verticalSpace,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: GestureDetector(
+                onTap: () {
+                  isCheckboxChecked = !isCheckboxChecked;
+                  setState(() {});
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
                       height: 24,
                       width: 24,
                       decoration: BoxDecoration(
@@ -225,22 +241,28 @@ class _CheckoutSecondPageBodyState extends State<CheckoutSecondPageBody> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
-                        child: Container(
-                          height: 12,
-                          width: 12,
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOutCubic,
+                          height: isCheckboxChecked ? 12 : 0,
+                          width: isCheckboxChecked ? 12 : 0,
                           decoration: BoxDecoration(
-                            color: true
-                                ? AppColors.gPercent
-                                : AppColors.white, // Green box inside
+                            color: AppColors.gPercent, // Green box inside
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                       ), // No content when unchecked
                     ),
-                  )
-                ],
+                    16.horizontalSpace,
+                    Text(
+                      "Save credit card details",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400, fontSize: 16),
+                    )
+                  ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),
