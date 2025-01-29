@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../../../common/layout/skeleton_builder.dart';
 import '../../../../core/themes/app_colors.dart';
+import '../../../../core/utils/cached_image_handler.dart';
 
 class ProductImagesCarousel extends StatefulWidget {
   final List<String> carousel;
@@ -30,28 +29,10 @@ class _ProductImagesCarouselState extends State<ProductImagesCarousel> {
             return Stack(
               fit: StackFit.expand,
               children: [
-                Image.network(
-                  item, // Dynamic photo URL
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      // The image has been fully loaded
-                      return child;
-                    } else {
-                      // Show skeleton builder while loading
-                      return SkeletonBuilder.imageLoading();
-                    }
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    // Handle image load failure
-                    return Center(
-                      child: Icon(
-                        Icons.broken_image,
-                        size: 40,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+                CachedImageHandler.asImage(
+                  imageUrl: item,
+                  shimmerBaseColor: Color(0xFFEEEEEE),
+                  shimmerHighlightColor: Color.fromARGB(255, 201, 201, 201),
                 ),
                 Container(
                   color:

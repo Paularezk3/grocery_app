@@ -8,7 +8,8 @@ class ProductDetailsPageLoading extends ProductDetailsPageState {}
 
 class ProductDetailsPageLoaded extends ProductDetailsPageState {
   final ProductDetailsEntity product;
-  ProductDetailsPageLoaded(this.product);
+  final int quantity;
+  ProductDetailsPageLoaded(this.product, this.quantity);
 }
 
 class ProductDetailsPageError extends ProductDetailsPageState {

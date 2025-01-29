@@ -10,6 +10,7 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
+    // await deleteDatabase('app_database.db'); // for testing only
     _database = await _initDB('app_database.db');
     return _database!;
   }
@@ -17,7 +18,7 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     return await openDatabase(
       filePath,
-      version: 1,
+      version: 3,
       onCreate: (db, version) async {
         await ProductDetailsDB.createTables(db); // Call here
       },

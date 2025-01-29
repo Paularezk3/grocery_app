@@ -13,8 +13,8 @@ class ProductDetailsPageBloc
       : super(ProductDetailsPageInitial()) {
     on<LoadProductDetailsPage>(_onLoadProductDetailsPage);
     on<ReturnToInitialState>(_onRetrunToInitialState);
-    // on<IncrementQuantityCounter>(_incrementQuantityCounter);
-    // on<DecrementQuantityCounter>(_decrementQuantityCounter);
+    on<IncrementQuantityCounter>(_incrementQuantityCounter);
+    on<DecrementQuantityCounter>(_decrementQuantityCounter);
   }
 
   Future<void> _onLoadProductDetailsPage(LoadProductDetailsPage event,
@@ -26,7 +26,7 @@ class ProductDetailsPageBloc
       productDetails.fold((l) {
         emit(ProductDetailsPageError());
       }, (r) {
-        emit(ProductDetailsPageLoaded(r));
+        emit(ProductDetailsPageLoaded(r, 1));
       });
     } catch (e) {
       emit(ProductDetailsPageError());
@@ -38,21 +38,21 @@ class ProductDetailsPageBloc
     emit(ProductDetailsPageInitial());
   }
 
-  // void _incrementQuantityCounter(
-  //     IncrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
-  //   if (state is ProductDetailsPageLoaded) {
-  //     final currentState = state as ProductDetailsPageLoaded;
-  //     emit(ProductDetailsPageLoaded(
-  //         currentState.product, currentState.quantityCounter + 1));
-  //   }
-  // }
+  void _incrementQuantityCounter(
+      IncrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
+    if (state is ProductDetailsPageLoaded) {
+      final currentState = state as ProductDetailsPageLoaded;
+      emit(ProductDetailsPageLoaded(
+          currentState.product, currentState.quantity + 1));
+    }
+  }
 
-  // void _decrementQuantityCounter(
-  //     DecrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
-  //   if (state is ProductDetailsPageLoaded) {
-  //     final currentState = state as ProductDetailsPageLoaded;
-  //     emit(ProductDetailsPageLoaded(
-  //         currentState.product, currentState.quantityCounter - 1));
-  //   }
-  // }
+  void _decrementQuantityCounter(
+      DecrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
+    if (state is ProductDetailsPageLoaded) {
+      final currentState = state as ProductDetailsPageLoaded;
+      emit(ProductDetailsPageLoaded(
+          currentState.product, currentState.quantity - 1));
+    }
+  }
 }

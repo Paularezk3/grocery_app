@@ -5,33 +5,30 @@ import 'package:sqflite/sqflite.dart';
 class ProductDetailsDB {
   static Future<void> createTables(Database db) async {
     await db.execute('''
-      CREATE TABLE product_details(
-        productId INTEGER PRIMARY KEY,
-        title TEXT, 
-        productName TEXT,
-        description TEXT,
-        price REAL,
-        carouselImages TEXT, -- Store as JSON
-        review REAL DEFAULT 0.0, -- Example: 4.5
-        numberOfReviews INTEGER DEFAULT 0, -- Example: 100
-        reviews TEXT -- Store as JSON for individual reviews
-      )
-    ''');
+    CREATE TABLE product_details(
+      productId INTEGER PRIMARY KEY,
+      title TEXT, 
+      productName TEXT,
+      description TEXT,
+      price REAL,
+      carouselImages TEXT, -- Store as JSON
+      review REAL, -- For average rating
+      numberOfReviews INTEGER, -- For total number of reviews
+      reviews TEXT -- Store review details as JSON
+    )
+  ''');
   }
 
   static Future<void> updateDatabaseWithReviews(Database db) async {
     // Add new columns for reviews to the product_details table
     await db.execute('''
-      ALTER TABLE product_details
-      ADD COLUMN review REAL DEFAULT 0.0; -- Average review rating
-    ''');
+          ALTER TABLE product_details ADD COLUMN review REAL;
+        ''');
     await db.execute('''
-      ALTER TABLE product_details
-      ADD COLUMN numberOfReviews INTEGER DEFAULT 0; -- Total number of reviews
-    ''');
+          ALTER TABLE product_details ADD COLUMN numberOfReviews INTEGER;
+        ''');
     await db.execute('''
-      ALTER TABLE product_details
-      ADD COLUMN reviews TEXT; -- JSON string for reviews
-    ''');
+          ALTER TABLE product_details ADD COLUMN reviews TEXT;
+        ''');
   }
 }

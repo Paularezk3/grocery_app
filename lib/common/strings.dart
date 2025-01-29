@@ -18,6 +18,7 @@ class Strings {
   static const signUpPhoto = "$_imagesPath/sign_up.png";
   static const signInPhoto = "$_imagesPath/sign_in.png";
   static const smallProfileImage = "$_imagesPath/small_profile.png";
+  static const motorcycleImage = "$_imagesPath/motorcycle.png";
 
   // carousel images
   static const carousel1 = "$_carouselPath/carousel_1.png";
@@ -26,6 +27,7 @@ class Strings {
   static const carousel4 = "$_carouselPath/carousel_4.png";
   static const carousel5 = "$_carouselPath/carousel_5.png";
   static const carousel6 = "$_carouselPath/carousel_6.png";
+  static const carousel7 = "$_carouselPath/carousel_7.png";
 
   // Category Images
   static const category1 = "$_categoryPath/category_1.png";
@@ -36,4 +38,7 @@ class Strings {
   static const category6 = "$_categoryPath/category_6.png";
   static const category7 = "$_categoryPath/category_7.png";
   static const category8 = "$_categoryPath/category_8.png";
+
+  static const cardBg = '$_imagesPath/card_bg.png';
+  static const cardBg2 = '$_imagesPath/card_bg2.png';
 }

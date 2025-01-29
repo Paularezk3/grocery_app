@@ -11,7 +11,8 @@ import '../../../../common/components/default_icon.dart';
 import '../widgets/onboarding_content.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  final int? onBoardingPage;
+  const OnboardingPage({this.onBoardingPage, super.key});
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
@@ -19,7 +20,7 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
-  int _currentPage = 0;
+  late int _currentPage;
 
   final List<String> _onboardingTitleTexts = [
     'Welcome to Fresh Fruits!',
@@ -31,6 +32,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
     'Only the freshest and highest-quality produce.',
     'Enjoy quick and reliable delivery, every time.',
   ];
+
+  @override
+  void initState() {
+    _currentPage = widget.onBoardingPage ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

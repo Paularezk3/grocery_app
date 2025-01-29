@@ -2,7 +2,9 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../../../core/config/setup_dependencies.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/analytics_service.dart';
 import '../../domain/entities/login_params.dart';
 import '../../domain/repositories/login_repository.dart';
 
@@ -16,6 +18,9 @@ class MockFirebaseLoginRepository implements LoginRepository {
         email: params.email,
         password: params.password,
       );
+
+      getIt<AnalyticsService>()
+          .logUserSignIn(userId: _firebaseAuth.currentUser!.uid);
       return const Right(null);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

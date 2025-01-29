@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/themes/app_colors.dart';
+import '../../features/home/presentation/bloc/home_page_bloc.dart';
+import '../../features/home/presentation/bloc/home_page_event.dart';
 import '../../features/home/presentation/models/home_page_model.dart';
 import 'favourite_icon_animation.dart';
 
@@ -77,14 +80,16 @@ class FruitsCategoryCardGrid extends StatelessWidget {
                 Positioned(
                   top: 8,
                   left: 8,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Handle favorite action here
+                  child: FavouriteIconAnimation(
+                    item: item,
+                    onPressed: (isFavourite) {
+                      context
+                          .read<HomePageBloc>()
+                          .add(UpdateFavoriteTrendingDeal(
+                            dealIndex: index,
+                            isFavourite: isFavourite,
+                          ));
                     },
-                    child: FavouriteIconAnimation(
-                      item: item,
-                      onPressed: () {},
-                    ),
                   ),
                 ),
 
